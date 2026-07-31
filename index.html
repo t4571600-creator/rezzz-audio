@@ -6,20 +6,17 @@
 <title>Rezzz Audio Premium</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     background: linear-gradient(180deg, #050b1a 0%, #0a1429 100%);
     color: #fff;
     min-height: 100vh;
   }
-
   .container {
     max-width: 430px;
     margin: 0 auto;
     padding: 16px 14px 40px;
   }
-
   h1 {
     text-align: center;
     color: #ffd84d;
@@ -27,20 +24,17 @@
     font-weight: 800;
     margin: 12px 0 4px;
   }
-
   .sub {
     text-align: center;
     color: #8fa3c9;
     font-size: 13px;
     margin-bottom: 18px;
   }
-
   .socials {
     display: flex;
     gap: 10px;
     margin-bottom: 16px;
   }
-
   .social {
     flex: 1;
     text-align: center;
@@ -51,10 +45,8 @@
     font-weight: 700;
     font-size: 15px;
   }
-
   .discord { background: #5865F2; }
   .tiktok { background: #111; border: 1px solid #333; }
-
   .card {
     background: #0f1c3a;
     border-radius: 22px;
@@ -62,14 +54,12 @@
     margin-bottom: 16px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.35);
   }
-
   .card h3 {
     margin: 0 0 14px;
     color: #ffd84d;
     font-size: 16px;
     font-weight: 700;
   }
-
   button {
     width: 100%;
     border: none;
@@ -80,16 +70,13 @@
     cursor: pointer;
     margin-top: 10px;
   }
-
   button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
-
   .btn { background: linear-gradient(90deg,#ffd84d,#ffb703); color: #111; }
   .btn2 { background: linear-gradient(90deg,#4facfe,#00c6ff); color: #fff; }
   .btn3 { background: linear-gradient(90deg,#d4af37,#f7e27a); color: #111; }
-
   .status {
     margin-top: 12px;
     padding: 11px;
@@ -99,7 +86,6 @@
     font-size: 13px;
     text-align: center;
   }
-
   .total-users {
     margin-top: 10px;
     padding: 11px;
@@ -111,7 +97,6 @@
     text-align: center;
     font-weight: 700;
   }
-
   .upload {
     display: block;
     border: 2px dashed #ffd84d;
@@ -121,34 +106,28 @@
     cursor: pointer;
     background: #0c1730;
   }
-
   .upload .icon { font-size: 28px; margin-bottom: 4px; }
   .upload-title { font-size: 16px; font-weight: 800; }
   .upload-name { font-size: 12px; color: #9fb2d9; margin-top: 5px; word-break: break-all; }
-
   input[type="file"] { display: none; }
-
   audio {
     width: 100%;
     margin: 12px 0 4px;
     border-radius: 12px;
     height: 40px;
   }
-
   .preset-title {
     font-size: 15px;
     font-weight: 700;
     margin: 16px 0 10px;
     color: #e0e7ff;
   }
-
   .preset-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 8px;
     margin-bottom: 6px;
   }
-
   .preset-btn {
     background: #152447;
     border: 1px solid #2a3f6e;
@@ -159,15 +138,12 @@
     font-weight: 600;
     cursor: pointer;
   }
-
   .preset-btn.active {
     background: #1e3a6e;
     border-color: #4facfe;
     color: #fff;
   }
-
   .row { margin-top: 16px; }
-
   .label {
     display: flex;
     justify-content: space-between;
@@ -176,9 +152,7 @@
     font-weight: 700;
     font-size: 14px;
   }
-
   .label span:last-child { color: #ffd84d; }
-
   input[type="range"] {
     width: 100%;
     height: 6px;
@@ -188,7 +162,6 @@
     border-radius: 10px;
     outline: none;
   }
-
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 20px;
@@ -198,7 +171,6 @@
     cursor: pointer;
     box-shadow: 0 0 8px rgba(79,172,254,0.5);
   }
-
   .desc {
     background: #0a1327;
     border: 1px solid #1f2e5a;
@@ -209,35 +181,28 @@
     line-height: 1.55;
     color: #c8d3ef;
   }
-
   .desc strong { color: #ffd84d; }
-
   .desc.premium {
     border-color: #d4af37;
     background: #1a1505;
   }
-
   .desc.premium strong { color: #f7e27a; }
-
   .note {
     text-align: center;
     color: #7f93c4;
     font-size: 11px;
     margin-top: 12px;
   }
-
   .footer {
     text-align: center;
     margin-top: 20px;
     color: #5a6e9a;
     font-size: 12px;
   }
-
   .locked {
     opacity: 0.55;
     pointer-events: none;
   }
-
   .harga-box {
     background: #1a1505;
     border: 1px solid #d4af37;
@@ -245,14 +210,12 @@
     padding: 14px;
     margin-top: 14px;
   }
-
   .harga-box h4 {
     color: #f7e27a;
     font-size: 14px;
     margin-bottom: 10px;
     text-align: center;
   }
-
   .harga-item {
     display: flex;
     justify-content: space-between;
@@ -260,16 +223,39 @@
     font-size: 13.5px;
     border-bottom: 1px solid #3a2e10;
   }
-
-  .harga-item:last-child {
+  .harga-item:last-of-type {
     border-bottom: none;
   }
-
   .harga-item span:last-child {
     color: #ffd84d;
     font-weight: 700;
   }
-
+  .wa-box {
+    margin-top: 14px;
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid #3a2e10;
+  }
+  .wa-box .title {
+    font-size: 13px;
+    color: #f7e27a;
+    margin-bottom: 8px;
+  }
+  .wa-btn {
+    display: inline-block;
+    background: #25D366;
+    color: white;
+    padding: 11px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .wa-number {
+    font-size: 12.5px;
+    color: #c8d3ef;
+    margin-top: 9px;
+  }
   .modal-overlay {
     position: fixed;
     inset: 0;
@@ -280,11 +266,7 @@
     z-index: 999;
     padding: 20px;
   }
-
-  .modal-overlay.show {
-    display: flex;
-  }
-
+  .modal-overlay.show { display: flex; }
   .modal {
     background: #0f1c3a;
     border-radius: 20px;
@@ -293,14 +275,12 @@
     max-width: 340px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
   }
-
   .modal h3 {
     text-align: center;
     color: #ffd84d;
     margin-bottom: 18px;
     font-size: 18px;
   }
-
   .modal input {
     width: 100%;
     padding: 13px 14px;
@@ -312,32 +292,75 @@
     margin-bottom: 12px;
     outline: none;
   }
-
-  .modal input:focus {
-    border-color: #4facfe;
-  }
-
+  .modal input:focus { border-color: #4facfe; }
   .modal-actions {
     display: flex;
     gap: 10px;
     margin-top: 8px;
   }
-
   .modal-actions button {
     margin-top: 0;
     flex: 1;
   }
-
   .btn-cancel {
     background: #1a2a4a;
     color: #c8d3ef;
   }
+  .mode-switch {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .mode-btn {
+    flex: 1;
+    padding: 12px 8px;
+    border-radius: 12px;
+    border: 1px solid #2a3f6e;
+    background: #152447;
+    color: #c8d3ef;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .mode-btn.active {
+    background: linear-gradient(90deg,#4facfe,#00c6ff);
+    border-color: transparent;
+    color: #fff;
+  }
+  .link-box {
+    display: none;
+  }
+  .link-box.show {
+    display: block;
+  }
+  .link-input {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 12px;
+    border: 1px solid #2a3f6e;
+    background: #0a1327;
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+    margin-bottom: 10px;
+  }
+  .link-input:focus {
+    border-color: #4facfe;
+  }
+  .link-info {
+    background: #0a1327;
+    border: 1px solid #1f2e5a;
+    border-radius: 12px;
+    padding: 12px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: #a8b8d9;
+    margin-top: 8px;
+  }
 </style>
 </head>
 <body>
-
 <div class="container">
-
   <h1>Rezzz Audio</h1>
   <div class="sub">Audio Editor by Rezzz Studio</div>
 
@@ -352,7 +375,6 @@
     <button class="btn2" onclick="openModal('login')">Login</button>
     <button class="btn3" onclick="redeem()">Redeem Premium</button>
     <div class="status" id="loginStatus">Belum login</div>
-    
     <div class="total-users" id="totalUsers">Total Pengguna Aktif: ...</div>
 
     <div class="harga-box">
@@ -369,17 +391,43 @@
         <span>30 Hari</span>
         <span>Rp 100.000</span>
       </div>
+
+      <div class="wa-box">
+        <div class="title">Pembelian Premium via WhatsApp</div>
+        <a href="https://wa.me/6283135744309" target="_blank" class="wa-btn">
+          💬 Chat WhatsApp
+        </a>
+        <div class="wa-number">0831-3574-4309</div>
+      </div>
     </div>
   </div>
 
   <div class="card" id="editorArea">
 
-    <label class="upload" for="audioFile">
-      <div class="icon">📤</div>
-      <div class="upload-title">Upload Musik</div>
-      <div class="upload-name" id="fileName">Belum ada file dipilih</div>
-    </label>
-    <input type="file" id="audioFile" accept="audio/*">
+    <div class="mode-switch">
+      <button class="mode-btn active" id="modeUpload" onclick="switchMode('upload')">📁 Upload File</button>
+      <button class="mode-btn" id="modeLink" onclick="switchMode('link')">🔗 Dari Link</button>
+    </div>
+
+    <div id="uploadSection">
+      <label class="upload" for="audioFile">
+        <div class="icon">📤</div>
+        <div class="upload-title">Upload Musik (MP3)</div>
+        <div class="upload-name" id="fileName">Belum ada file dipilih</div>
+      </label>
+      <input type="file" id="audioFile" accept="audio/*">
+    </div>
+
+    <div id="linkSection" class="link-box">
+      <input type="text" class="link-input" id="linkInput" placeholder="Tempel link TikTok / YouTube / SoundCloud...">
+      <button class="btn2" onclick="ambilDariLink()">Ambil Audio dari Link</button>
+      <div class="link-info">
+        <strong>Cara pakai:</strong><br>
+        1. Download dulu audio dari TikTok / YT / SoundCloud (bisa pakai cobalt.tools)<br>
+        2. Lalu upload file-nya lewat mode <b>Upload File</b><br><br>
+        Fitur ambil otomatis dari link masih dalam pengembangan.
+      </div>
+    </div>
 
     <audio id="player" controls></audio>
 
@@ -394,18 +442,12 @@
     </div>
 
     <div class="row">
-      <div class="label">
-        <span>Speed</span>
-        <span id="speedText">2.3x</span>
-      </div>
+      <div class="label"><span>Speed</span><span id="speedText">2.3x</span></div>
       <input type="range" id="speed" min="0.5" max="5" step="0.1" value="2.3">
     </div>
 
     <div class="row">
-      <div class="label">
-        <span>dB</span>
-        <span id="dbText">0 dB</span>
-      </div>
+      <div class="label"><span>dB</span><span id="dbText">0 dB</span></div>
       <input type="range" id="db" min="-20" max="20" value="0">
     </div>
 
@@ -430,10 +472,7 @@
     </div>
 
     <button class="btn" id="downloadBtn" disabled>Download Musik</button>
-
-    <div class="note">
-      Free: 10MB • 400s • 12x/hari — Premium: Unlimited
-    </div>
+    <div class="note">Free: 10MB • 400s • 12x/hari — Premium: Unlimited</div>
   </div>
 
   <div class="footer">© 2026 Rezzz Studio</div>
@@ -452,6 +491,264 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const sb = window.supabase.createClient(
+    'https://piqsobwblwzwbenbzhkx.supabase.co',
+    'sb_publishable_pL17zeNQZJg9ky-E9gak1A_hx3BccCl'
+  );
+
+  const loginStatus = document.getElementById('loginStatus');
+  const editorArea = document.getElementById('editorArea');
+  const fileInput = document.getElementById('audioFile');
+  const player = document.getElementById('player');
+  const fileName = document.getElementById('fileName');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const speed = document.getElementById('speed');
+  const speedText = document.getElementById('speedText');
+  const descBox = document.getElementById('descBox');
+  const db = document.getElementById('db');
+  const dbText = document.getElementById('dbText');
+  const totalUsersEl = document.getElementById('totalUsers');
+
+  let currentFile = null;
+  let isLoggedIn = false;
+  let modalMode = 'daftar';
+
+  updateTotalUsers();
+
+  const savedUser = localStorage.getItem('loginUser');
+  if (savedUser) {
+    isLoggedIn = true;
+    loginStatus.innerText = 'Login sebagai: ' + savedUser;
+    unlockEditor();
+  } else {
+    lockEditor();
+  }
+
+  function switchMode(mode) {
+    const uploadSection = document.getElementById('uploadSection');
+    const linkSection = document.getElementById('linkSection');
+    const btnUpload = document.getElementById('modeUpload');
+    const btnLink = document.getElementById('modeLink');
+
+    if (mode === 'upload') {
+      uploadSection.style.display = 'block';
+      linkSection.classList.remove('show');
+      btnUpload.classList.add('active');
+      btnLink.classList.remove('active');
+    } else {
+      uploadSection.style.display = 'none';
+      linkSection.classList.add('show');
+      btnUpload.classList.remove('active');
+      btnLink.classList.add('active');
+    }
+  }
+
+  function ambilDariLink() {
+    if (!isLoggedIn) {
+      alert('Login dulu untuk menggunakan fitur ini');
+      return;
+    }
+    const link = document.getElementById('linkInput').value.trim();
+    if (!link) {
+      alert('Masukkan link dulu');
+      return;
+    }
+    alert('Fitur ambil otomatis dari link masih dalam pengembangan.\n\nSementara silakan download dulu audio-nya (bisa pakai cobalt.tools), lalu upload lewat mode Upload File.');
+  }
+
+  async function updateTotalUsers() {
+    try {
+      const { count, error } = await sb
+        .from('rezzz-audio')
+        .select('*', { count: 'exact', head: true });
+
+      if (error) {
+        console.error(error);
+        totalUsersEl.innerText = 'Total Pengguna Aktif: -';
+        return;
+      }
+      totalUsersEl.innerText = 'Total Pengguna Aktif: ' + (count || 0);
+    } catch (err) {
+      console.error(err);
+      totalUsersEl.innerText = 'Total Pengguna Aktif: -';
+    }
+  }
+
+  function lockEditor() {
+    editorArea.classList.add('locked');
+  }
+
+  function unlockEditor() {
+    editorArea.classList.remove('locked');
+  }
+
+  function openModal(mode) {
+    modalMode = mode;
+    document.getElementById('modalTitle').innerText = mode === 'daftar' ? 'Daftar' : 'Login';
+    document.getElementById('modalSubmit').innerText = mode === 'daftar' ? 'Daftar' : 'Login';
+    document.getElementById('modalUsername').value = '';
+    document.getElementById('modalPassword').value = '';
+    document.getElementById('modalOverlay').classList.add('show');
+    document.getElementById('modalUsername').focus();
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+  }
+
+  async function submitModal() {
+    const username = document.getElementById('modalUsername').value.trim();
+    const password = document.getElementById('modalPassword').value;
+
+    if (!username || !password) {
+      alert('Username dan Password wajib diisi');
+      return;
+    }
+
+    if (modalMode === 'daftar') {
+      const { error } = await sb.from('rezzz-audio').insert([{
+        username,
+        password,
+        is_premium: false,
+        daily_count: 0,
+        last_reset: new Date().toISOString().slice(0, 10)
+      }]);
+
+      if (error) {
+        console.error(error);
+        alert('Gagal daftar: ' + error.message);
+      } else {
+        alert('Akun berhasil dibuat! Silakan login.');
+        closeModal();
+        updateTotalUsers();
+      }
+    } else {
+      const { data, error } = await sb
+        .from('rezzz-audio')
+        .select('*')
+        .eq('username', username)
+        .eq('password', password)
+        .single();
+
+      if (error || !data) {
+        console.error(error);
+        alert('Username atau password salah');
+      } else {
+        localStorage.setItem('loginUser', username);
+        loginStatus.innerText = 'Login sebagai: ' + username;
+        isLoggedIn = true;
+        unlockEditor();
+        alert('Login berhasil');
+        closeModal();
+      }
+    }
+  }
+
+  async function redeem() {
+    const username = localStorage.getItem('loginUser');
+    if (!username) return alert('Login dulu');
+
+    const code = prompt('Masukkan kode premium');
+    if (!code) return;
+
+    const { data, error } = await sb
+      .from('redeem_codes')
+      .select('*')
+      .eq('code', code)
+      .eq('used', false)
+      .single();
+
+    if (error || !data) {
+      return alert('Kode tidak valid');
+    }
+
+    const until = new Date();
+    until.setDate(until.getDate() + data.days);
+
+    await sb.from('rezzz-audio').update({
+      is_premium: true,
+      premium_until: until.toISOString()
+    }).eq('username', username);
+
+    await sb.from('redeem_codes').update({ used: true }).eq('code', code);
+
+    alert('Premium aktif sampai ' + until.toLocaleDateString());
+  }
+
+  fileInput.addEventListener('change', e => {
+    if (!isLoggedIn) {
+      alert('Login dulu untuk menggunakan fitur ini');
+      fileInput.value = '';
+      return;
+    }
+
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Maksimal 10MB untuk user gratis');
+      return;
+    }
+
+    currentFile = file;
+    fileName.textContent = file.name;
+
+    const url = URL.createObjectURL(file);
+    player.src = url;
+
+    player.onloadedmetadata = () => {
+      if (player.duration > 400) {
+        alert('Maksimal 400 detik untuk user gratis');
+        player.src = '';
+        return;
+      }
+      downloadBtn.disabled = false;
+    };
+  });
+
+  function setPreset(value, btn) {
+    if (!isLoggedIn) {
+      alert('Login dulu untuk menggunakan fitur ini');
+      return;
+    }
+
+    speed.value = value;
+    updateSpeed(value);
+
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+  }
+
+  function updateSpeed(val) {
+    player.playbackRate = val;
+    speedText.textContent = val + 'x';
+
+    const game = (1 / val).toFixed(2);
+
+    descBox.innerHTML =
+      '<strong>Custom Speed ' + val + 'x</strong><br>' +
+      'Estimasi In Game <strong>' + game + '</strong><br>' +
+      'Semakin besar speed, musik akan semakin cepat.';
+  }
+
+  speed.addEventListener('input', () => {
+    if (!isLoggedIn) return;
+    updateSpeed(parseFloat(speed.value));
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  });
+
+  db.addEventListener('input', () => {
+    if (!isLoggedIn) return;
+    dbText.textContent = db.value + ' dB';
+  });
+
+  downloadBtn.addEventListener('click', async () => {
+    if (!isLoggedIn) return alert('Login dulu');
+
+    const username = localStorage.getItem('loginUser');
+
+    const { data } = awabase-js@2"></script>
 <script>
   const sb = window.supabase.createClient(
     'https://piqsobwblwzwbenbzhkx.supabase.co',
