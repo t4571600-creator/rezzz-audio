@@ -3,507 +3,371 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Rezzz Audio Premium</title>
+<title>Rezzz Audio</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: linear-gradient(180deg, #050b1a 0%, #0a1429 100%);
-    color: #fff;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    background: #070b14;
+    color: #e8eefc;
     min-height: 100vh;
   }
-  .container {
-    max-width: 430px;
+  .wrap {
+    max-width: 420px;
     margin: 0 auto;
-    padding: 16px 14px 40px;
+    padding: 20px 16px 48px;
   }
-  h1 {
+  .brand {
     text-align: center;
-    color: #ffd84d;
-    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  .brand h1 {
+    font-size: 28px;
     font-weight: 800;
-    margin: 12px 0 4px;
+    background: linear-gradient(90deg, #ffd84d, #ff9f1c);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .sub {
-    text-align: center;
-    color: #8fa3c9;
+  .brand p {
+    color: #7b8bb0;
     font-size: 13px;
-    margin-bottom: 18px;
+    margin-top: 4px;
   }
-  .socials {
+  .links {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 16px;
   }
-  .social {
+  .links a {
     flex: 1;
     text-align: center;
-    padding: 13px 0;
-    border-radius: 14px;
+    padding: 11px;
+    border-radius: 12px;
     text-decoration: none;
     color: #fff;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 13px;
   }
-  .discord { background: #5865F2; }
-  .tiktok { background: #111; border: 1px solid #333; }
+  .links .dc { background: #5865F2; }
+  .links .tt { background: #1a1a1a; border: 1px solid #333; }
+
   .card {
-    background: #0f1c3a;
-    border-radius: 22px;
+    background: #0e1526;
+    border: 1px solid #1c2744;
+    border-radius: 18px;
     padding: 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    margin-bottom: 14px;
   }
   .card h3 {
-    margin: 0 0 14px;
     color: #ffd84d;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
   }
-  button {
+
+  .btn {
     width: 100%;
     border: none;
-    border-radius: 14px;
-    padding: 14px;
-    font-size: 15px;
+    border-radius: 12px;
+    padding: 13px;
+    font-size: 14px;
     font-weight: 800;
     cursor: pointer;
+    margin-top: 8px;
+  }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-gold {
+    background: linear-gradient(90deg, #ffd84d, #ffb703);
+    color: #111;
+  }
+  .btn-blue {
+    background: linear-gradient(90deg, #4facfe, #00c6ff);
+    color: #fff;
+  }
+  .btn-prem {
+    background: linear-gradient(90deg, #d4af37, #f7e27a);
+    color: #111;
+  }
+  .btn-ghost {
+    background: #152038;
+    color: #c5d0ea;
+    border: 1px solid #2a3a5c;
+  }
+
+  .info {
     margin-top: 10px;
-  }
-  button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  .btn { background: linear-gradient(90deg,#ffd84d,#ffb703); color: #111; }
-  .btn2 { background: linear-gradient(90deg,#4facfe,#00c6ff); color: #fff; }
-  .btn3 { background: linear-gradient(90deg,#d4af37,#f7e27a); color: #111; }
-  .status {
-    margin-top: 12px;
-    padding: 11px;
-    border-radius: 12px;
-    background: #0a1327;
-    color: #a8b8d9;
-    font-size: 13px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #0a1020;
+    font-size: 12.5px;
     text-align: center;
+    color: #9aaccf;
   }
-  .premium-status {
-    margin-top: 10px;
-    padding: 11px;
-    border-radius: 12px;
-    background: #0a1327;
-    border: 1px solid #1f2e5a;
-    color: #a8b8d9;
-    font-size: 13px;
-    text-align: center;
-    font-weight: 700;
-    display: none;
-  }
-  .premium-status.active {
-    display: block;
+  .info.ok {
     background: #1a1505;
-    border-color: #d4af37;
+    border: 1px solid #d4af37;
     color: #f7e27a;
+    font-weight: 700;
   }
-  .premium-status.expired {
-    display: block;
+  .info.bad {
     background: #1a0a0a;
-    border-color: #5a2a2a;
+    border: 1px solid #5a2a2a;
     color: #e8a0a0;
+    font-weight: 700;
   }
-  .total-users {
-    margin-top: 10px;
-    padding: 11px;
-    border-radius: 12px;
-    background: #0a1327;
+  .info.blue {
     border: 1px solid #1f2e5a;
     color: #4facfe;
-    font-size: 13px;
-    text-align: center;
     font-weight: 700;
   }
+
+  .harga {
+    margin-top: 12px;
+    border-top: 1px solid #1c2744;
+    padding-top: 12px;
+  }
+  .harga-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 6px 0;
+    color: #c5d0ea;
+  }
+  .harga-row b { color: #ffd84d; }
+  .wa {
+    display: block;
+    margin-top: 10px;
+    text-align: center;
+    background: #25D366;
+    color: #fff;
+    padding: 11px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+  }
+
   .upload {
     display: block;
-    border: 2px dashed #ffd84d;
-    border-radius: 18px;
-    padding: 18px 14px;
+    border: 1.5px dashed #3a4d75;
+    border-radius: 14px;
+    padding: 22px 14px;
     text-align: center;
     cursor: pointer;
-    background: #0c1730;
+    background: #0a1020;
+    transition: border-color 0.2s;
   }
-  .upload .icon { font-size: 28px; margin-bottom: 4px; }
-  .upload-title { font-size: 16px; font-weight: 800; }
-  .upload-name { font-size: 12px; color: #9fb2d9; margin-top: 5px; word-break: break-all; }
+  .upload:hover { border-color: #ffd84d; }
+  .upload .ic { font-size: 26px; margin-bottom: 6px; }
+  .upload .t { font-weight: 700; font-size: 14px; }
+  .upload .n { font-size: 11px; color: #7b8bb0; margin-top: 6px; word-break: break-all; }
   input[type="file"] { display: none; }
+
   audio {
     width: 100%;
     margin: 12px 0 4px;
-    border-radius: 12px;
     height: 40px;
+    border-radius: 10px;
   }
-  .preset-title {
-    font-size: 15px;
-    font-weight: 700;
-    margin: 16px 0 10px;
-    color: #e0e7ff;
-  }
-  .preset-grid {
+
+  .presets {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 6px;
+    gap: 7px;
+    margin: 12px 0 4px;
   }
-  .preset-btn {
-    background: #152447;
-    border: 1px solid #2a3f6e;
-    color: #c8d3ef;
-    border-radius: 12px;
-    padding: 11px 6px;
-    font-size: 12.5px;
+  .presets button {
+    background: #152038;
+    border: 1px solid #2a3a5c;
+    color: #c5d0ea;
+    border-radius: 10px;
+    padding: 10px 4px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
+    margin-top: 0;
   }
-  .preset-btn.active {
-    background: #1e3a6e;
+  .presets button.on {
+    background: #1a3058;
     border-color: #4facfe;
     color: #fff;
   }
-  .row { margin-top: 16px; }
-  .label {
+
+  .slider-row { margin-top: 14px; }
+  .slider-row .lab {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
+    font-size: 13px;
     font-weight: 700;
-    font-size: 14px;
+    margin-bottom: 8px;
   }
-  .label span:last-child { color: #ffd84d; }
+  .slider-row .lab span:last-child { color: #ffd84d; }
   input[type="range"] {
     width: 100%;
-    height: 6px;
+    height: 5px;
     -webkit-appearance: none;
     appearance: none;
-    background: #1a2a4a;
-    border-radius: 10px;
+    background: #1a2744;
+    border-radius: 8px;
     outline: none;
   }
   input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: #4facfe;
     cursor: pointer;
-    box-shadow: 0 0 8px rgba(79,172,254,0.5);
+    box-shadow: 0 0 6px rgba(79,172,254,0.45);
   }
-  .desc {
-    background: #0a1327;
-    border: 1px solid #1f2e5a;
-    border-radius: 14px;
-    padding: 13px 14px;
+
+  .tip {
     margin-top: 12px;
-    font-size: 13px;
-    line-height: 1.55;
-    color: #c8d3ef;
-  }
-  .desc strong { color: #ffd84d; }
-  .desc.premium {
-    border-color: #d4af37;
-    background: #1a1505;
-  }
-  .desc.premium strong { color: #f7e27a; }
-  .note {
-    text-align: center;
-    color: #7f93c4;
-    font-size: 11px;
-    margin-top: 12px;
-  }
-  .footer {
-    text-align: center;
-    margin-top: 20px;
-    color: #5a6e9a;
-    font-size: 12px;
-  }
-  .locked {
-    opacity: 0.55;
-    pointer-events: none;
-  }
-  .harga-box {
-    background: #1a1505;
-    border: 1px solid #d4af37;
-    border-radius: 14px;
-    padding: 14px;
-    margin-top: 14px;
-  }
-  .harga-box h4 {
-    color: #f7e27a;
-    font-size: 14px;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  .harga-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 7px 0;
-    font-size: 13.5px;
-    border-bottom: 1px solid #3a2e10;
-  }
-  .harga-item:last-of-type { border-bottom: none; }
-  .harga-item span:last-child {
-    color: #ffd84d;
-    font-weight: 700;
-  }
-  .wa-box {
-    margin-top: 14px;
-    text-align: center;
-    padding-top: 12px;
-    border-top: 1px solid #3a2e10;
-  }
-  .wa-box .title {
-    font-size: 13px;
-    color: #f7e27a;
-    margin-bottom: 8px;
-  }
-  .wa-btn {
-    display: inline-block;
-    background: #25D366;
-    color: white;
-    padding: 11px 20px;
+    padding: 11px 12px;
     border-radius: 12px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 14px;
-  }
-  .wa-number {
+    background: #0a1020;
+    border: 1px solid #1c2744;
     font-size: 12.5px;
-    color: #c8d3ef;
-    margin-top: 9px;
+    line-height: 1.5;
+    color: #9aaccf;
   }
-  .modal-overlay {
+  .tip b { color: #ffd84d; }
+
+  .locked { opacity: 0.5; pointer-events: none; }
+  .foot {
+    text-align: center;
+    margin-top: 18px;
+    color: #4a5a7a;
+    font-size: 11px;
+  }
+
+  .modal-bg {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.7);
+    background: rgba(0,0,0,0.72);
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 999;
+    z-index: 99;
     padding: 20px;
   }
-  .modal-overlay.show { display: flex; }
+  .modal-bg.show { display: flex; }
   .modal {
-    background: #0f1c3a;
-    border-radius: 20px;
-    padding: 24px 20px;
+    background: #0e1526;
+    border: 1px solid #1c2744;
+    border-radius: 18px;
+    padding: 22px 18px;
     width: 100%;
-    max-width: 340px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    max-width: 320px;
   }
   .modal h3 {
     text-align: center;
     color: #ffd84d;
-    margin-bottom: 18px;
-    font-size: 18px;
+    margin-bottom: 14px;
+    font-size: 17px;
   }
   .modal input {
     width: 100%;
-    padding: 13px 14px;
-    border-radius: 12px;
-    border: 1px solid #2a3f6e;
-    background: #0a1327;
+    padding: 12px 13px;
+    border-radius: 11px;
+    border: 1px solid #2a3a5c;
+    background: #0a1020;
     color: #fff;
-    font-size: 15px;
-    margin-bottom: 12px;
+    font-size: 14px;
+    margin-bottom: 10px;
     outline: none;
   }
   .modal input:focus { border-color: #4facfe; }
-  .modal-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 8px;
-  }
-  .modal-actions button {
-    margin-top: 0;
-    flex: 1;
-  }
-  .btn-cancel {
-    background: #1a2a4a;
-    color: #c8d3ef;
-  }
-  .mode-switch {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  .mode-btn {
-    flex: 1;
-    padding: 12px 8px;
-    border-radius: 12px;
-    border: 1px solid #2a3f6e;
-    background: #152447;
-    color: #c8d3ef;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-  .mode-btn.active {
-    background: linear-gradient(90deg,#4facfe,#00c6ff);
-    border-color: transparent;
-    color: #fff;
-  }
-  .link-box { display: none; }
-  .link-box.show { display: block; }
-  .link-input {
-    width: 100%;
-    padding: 13px 14px;
-    border-radius: 12px;
-    border: 1px solid #2a3f6e;
-    background: #0a1327;
-    color: #fff;
-    font-size: 14px;
-    outline: none;
-    margin-bottom: 10px;
-  }
-  .link-input:focus { border-color: #4facfe; }
-  .link-info {
-    background: #0a1327;
-    border: 1px solid #1f2e5a;
-    border-radius: 12px;
-    padding: 12px;
-    font-size: 12.5px;
-    line-height: 1.5;
-    color: #a8b8d9;
-    margin-top: 8px;
-  }
-  .format-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 6px;
-  }
-  .format-row .preset-btn { flex: 1; margin-top: 0; }
+  .modal-actions { display: flex; gap: 8px; margin-top: 6px; }
+  .modal-actions .btn { margin-top: 0; flex: 1; }
 </style>
 </head>
 <body>
-<div class="container">
-  <h1>Rezzz Audio</h1>
-  <div class="sub">Audio Editor by Rezzz Studio</div>
+<div class="wrap">
+  <div class="brand">
+    <h1>Rezzz Audio</h1>
+    <p>Audio Editor by Rezzz Studio</p>
+  </div>
 
-  <div class="socials">
-    <a class="social discord" href="https://discord.com/users/zinbotol" target="_blank">Discord</a>
-    <a class="social tiktok" href="https://www.tiktok.com/@rezzzstudio" target="_blank">TikTok</a>
+  <div class="links">
+    <a class="dc" href="https://discord.com/users/zinbotol" target="_blank">Discord</a>
+    <a class="tt" href="https://www.tiktok.com/@rezzzstudio" target="_blank">TikTok</a>
   </div>
 
   <div class="card">
     <h3>Account</h3>
-    <button class="btn" onclick="openModal('daftar')">Daftar</button>
-    <button class="btn2" onclick="openModal('login')">Login</button>
-    <button class="btn3" onclick="redeem()">Redeem Premium</button>
-    <div class="status" id="loginStatus">Belum login</div>
-    <div class="premium-status" id="premiumStatus"></div>
-    <div class="total-users" id="totalUsers">Total Pengguna Aktif: ...</div>
+    <button class="btn btn-gold" onclick="openModal('daftar')">Daftar</button>
+    <button class="btn btn-blue" onclick="openModal('login')">Login</button>
+    <button class="btn btn-prem" onclick="redeem()">Redeem Premium</button>
+    <div class="info" id="loginStatus">Belum login</div>
+    <div class="info" id="premiumStatus" style="display:none"></div>
+    <div class="info blue" id="totalUsers">Total Pengguna: ...</div>
 
-    <div class="harga-box">
-      <h4>💎 Harga Premium</h4>
-      <div class="harga-item"><span>3 Hari</span><span>Rp 25.000</span></div>
-      <div class="harga-item"><span>7 Hari</span><span>Rp 50.000</span></div>
-      <div class="harga-item"><span>30 Hari</span><span>Rp 100.000</span></div>
-      <div class="wa-box">
-        <div class="title">Pembelian Premium via WhatsApp</div>
-        <a href="https://wa.me/6283135744309" target="_blank" class="wa-btn">💬 Chat WhatsApp</a>
-        <div class="wa-number">0831-3574-4309</div>
-      </div>
+    <div class="harga">
+      <div class="harga-row"><span>3 Hari</span><b>Rp 25.000</b></div>
+      <div class="harga-row"><span>7 Hari</span><b>Rp 50.000</b></div>
+      <div class="harga-row"><span>30 Hari</span><b>Rp 100.000</b></div>
+      <a class="wa" href="https://wa.me/6283135744309" target="_blank">💬 Beli via WhatsApp</a>
     </div>
   </div>
 
   <div class="card" id="editorArea">
-    <div class="mode-switch">
-      <button class="mode-btn active" id="modeUpload" onclick="switchMode('upload')">📁 Upload File</button>
-      <button class="mode-btn" id="modeLink" onclick="switchMode('link')">🔗 Dari Link</button>
-    </div>
+    <h3>Editor</h3>
 
-    <div id="uploadSection">
-      <label class="upload" for="audioFile">
-        <div class="icon">📤</div>
-        <div class="upload-title">Upload Musik (MP3)</div>
-        <div class="upload-name" id="fileName">Belum ada file dipilih</div>
-      </label>
-      <input type="file" id="audioFile" accept="audio/*">
-    </div>
-
-    <div id="linkSection" class="link-box">
-      <input type="text" class="link-input" id="linkInput" placeholder="Tempel link TikTok / YouTube / SoundCloud...">
-      <button class="btn2" onclick="ambilDariLink()">Ambil Audio dari Link</button>
-      <div class="link-info">
-        <strong>Cara pakai:</strong><br>
-        1. Download dulu audio dari TikTok / YT / SoundCloud (bisa pakai cobalt.tools)<br>
-        2. Lalu upload file-nya lewat mode <b>Upload File</b><br><br>
-        Fitur ambil otomatis dari link masih dalam pengembangan.
-      </div>
-    </div>
+    <label class="upload" for="audioFile">
+      <div class="ic">📤</div>
+      <div class="t">Upload Musik</div>
+      <div class="n" id="fileName">MP3 / OGG / WAV</div>
+    </label>
+    <input type="file" id="audioFile" accept="audio/*">
 
     <audio id="player" controls></audio>
 
-    <div class="preset-title">Mode Preset</div>
-    <div class="preset-grid">
-      <button class="preset-btn" onclick="setPreset(2.1, 0, this)">Slow 2.1x</button>
-      <button class="preset-btn" onclick="setPreset(2.3, 0, this)">Default 2.3x</button>
-      <button class="preset-btn" onclick="setPreset(2.5, 1, this)">Fast 2.5x</button>
-      <button class="preset-btn" onclick="setPreset(2.7, 2, this)">Faster 2.7x</button>
-      <button class="preset-btn" onclick="setPreset(2.9, 3, this)">Ultra 2.9x</button>
-      <button class="preset-btn" onclick="setPreset(3.2, 4, this)">Extreme 3.2x</button>
+    <div class="presets">
+      <button onclick="setPreset(2.1, 0, this)">Slow 2.1x</button>
+      <button onclick="setPreset(2.3, 0, this)">Default 2.3x</button>
+      <button onclick="setPreset(2.5, 1, this)">Fast 2.5x</button>
+      <button onclick="setPreset(2.7, 2, this)">Faster 2.7x</button>
+      <button onclick="setPreset(2.9, 3, this)">Ultra 2.9x</button>
+      <button onclick="setPreset(3.2, 4, this)">Extreme 3.2x</button>
     </div>
 
-    <div class="row">
-      <div class="label"><span>Speed</span><span id="speedText">2.3x</span></div>
+    <div class="slider-row">
+      <div class="lab"><span>Speed</span><span id="speedText">2.3x</span></div>
       <input type="range" id="speed" min="0.5" max="5" step="0.1" value="2.3">
     </div>
 
-    <div class="row">
-      <div class="label"><span>dB</span><span id="dbText">0 dB</span></div>
+    <div class="slider-row">
+      <div class="lab"><span>dB</span><span id="dbText">0 dB</span></div>
       <input type="range" id="db" min="-20" max="20" value="0">
     </div>
 
-    <div class="row">
-      <div class="label"><span>Format Download</span></div>
-      <div class="format-row">
-        <button type="button" class="preset-btn active" id="fmtOgg" onclick="setFormat('ogg', this)">OGG (Roblox)</button>
-        <button type="button" class="preset-btn" id="fmtMp3" onclick="setFormat('mp3', this)">MP3</button>
-      </div>
+    <div class="tip" id="descBox">
+      <b>Default 2.3x</b><br>
+      Estimasi In Game <b>0.43</b> — cocok musik Roblox normal.
     </div>
 
-    <div class="desc" id="descBox">
-      <strong>Default 2.3x</strong><br>
-      Estimasi In Game <strong>0.43</strong><br>
-      Cocok untuk musik Roblox normal.
+    <div class="tip">
+      <b>Free</b> · 10MB · 400s · 12x/hari<br>
+      <b style="color:#f7e27a">Premium</b> · Unlimited
     </div>
 
-    <div class="desc">
-      <strong>Free User</strong><br>
-      • Maksimal 10 MB<br>
-      • Maksimal 400 detik<br>
-      • Limit 12x edit per hari
-    </div>
-
-    <div class="desc premium">
-      <strong>💎 Premium</strong><br>
-      • No limit file<br>
-      • No limit durasi<br>
-      • No limit edit
-    </div>
-
-    <button class="btn" id="downloadBtn" disabled>Download Musik</button>
-    <div class="note">Free: 10MB • 400s • 12x/hari — Premium: Unlimited</div>
+    <button class="btn btn-gold" id="downloadBtn" disabled>Download MP3</button>
   </div>
 
-  <div class="footer">© 2026 Rezzz Studio</div>
+  <div class="foot">© 2026 Rezzz Studio</div>
 </div>
 
-<div class="modal-overlay" id="modalOverlay">
+<div class="modal-bg" id="modalOverlay">
   <div class="modal">
     <h3 id="modalTitle">Daftar</h3>
     <input type="text" id="modalUsername" placeholder="Username" autocomplete="username">
     <input type="password" id="modalPassword" placeholder="Password" autocomplete="current-password">
     <div class="modal-actions">
-      <button class="btn-cancel" onclick="closeModal()">Batal</button>
-      <button class="btn" id="modalSubmit" onclick="submitModal()">Daftar</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Batal</button>
+      <button class="btn btn-gold" id="modalSubmit" onclick="submitModal()">Daftar</button>
     </div>
   </div>
 </div>
@@ -534,41 +398,31 @@
   let isLoggedIn = false;
   let isPremium = false;
   let modalMode = 'daftar';
-  let downloadFormat = 'ogg';
 
   updateTotalUsers();
 
   const savedUser = localStorage.getItem('loginUser');
   if (savedUser) {
     isLoggedIn = true;
-    loginStatus.innerText = 'Login sebagai: ' + savedUser;
+    loginStatus.innerText = 'Login: ' + savedUser;
     unlockEditor();
     checkPremiumStatus();
   } else {
     lockEditor();
   }
 
-  function setFormat(fmt, btn) {
-    downloadFormat = fmt;
-    document.getElementById('fmtOgg').classList.remove('active');
-    document.getElementById('fmtMp3').classList.remove('active');
-    if (btn) btn.classList.add('active');
-  }
-
   async function checkPremiumStatus() {
     const username = localStorage.getItem('loginUser');
     if (!username) {
       isPremium = false;
-      premiumStatusEl.className = 'premium-status';
-      premiumStatusEl.innerText = '';
+      premiumStatusEl.style.display = 'none';
       return false;
     }
     try {
       const { data, error } = await sb.from('rezzz-audio').select('*').eq('username', username).single();
       if (error || !data) {
         isPremium = false;
-        premiumStatusEl.className = 'premium-status';
-        premiumStatusEl.innerText = '';
+        premiumStatusEl.style.display = 'none';
         return false;
       }
       const now = new Date();
@@ -576,63 +430,36 @@
         const until = new Date(data.premium_until);
         if (until > now) {
           isPremium = true;
-          const sisaHari = Math.ceil((until - now) / (1000 * 60 * 60 * 24));
-          const tgl = until.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-          let teksSisa = sisaHari + ' hari';
-          if (sisaHari === 1) teksSisa = '1 hari';
-          if (sisaHari < 1) teksSisa = 'kurang dari 1 hari';
-          premiumStatusEl.className = 'premium-status active';
-          premiumStatusEl.innerHTML = '💎 Premium aktif — sisa <strong>' + teksSisa + '</strong><br><span style="font-size:12px;opacity:0.9">(sampai ' + tgl + ')</span>';
+          const sisa = Math.ceil((until - now) / 86400000);
+          const tgl = until.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+          premiumStatusEl.style.display = 'block';
+          premiumStatusEl.className = 'info ok';
+          premiumStatusEl.innerHTML = '💎 Premium · sisa ' + Math.max(sisa, 1) + ' hari · ' + tgl;
           return true;
-        } else {
-          await sb.from('rezzz-audio').update({ is_premium: false }).eq('username', username);
-          isPremium = false;
-          premiumStatusEl.className = 'premium-status expired';
-          premiumStatusEl.innerText = 'Premium sudah habis — bisa redeem lagi';
         }
+        await sb.from('rezzz-audio').update({ is_premium: false }).eq('username', username);
+      }
+      isPremium = false;
+      if (data.is_premium) {
+        premiumStatusEl.style.display = 'block';
+        premiumStatusEl.className = 'info bad';
+        premiumStatusEl.innerText = 'Premium habis · redeem lagi';
       } else {
-        isPremium = false;
-        premiumStatusEl.className = 'premium-status';
-        premiumStatusEl.innerText = '';
+        premiumStatusEl.style.display = 'none';
       }
       return false;
-    } catch (err) {
+    } catch (e) {
       isPremium = false;
       return false;
     }
   }
 
-  function switchMode(mode) {
-    const uploadSection = document.getElementById('uploadSection');
-    const linkSection = document.getElementById('linkSection');
-    const btnUpload = document.getElementById('modeUpload');
-    const btnLink = document.getElementById('modeLink');
-    if (mode === 'upload') {
-      uploadSection.style.display = 'block';
-      linkSection.classList.remove('show');
-      btnUpload.classList.add('active');
-      btnLink.classList.remove('active');
-    } else {
-      uploadSection.style.display = 'none';
-      linkSection.classList.add('show');
-      btnUpload.classList.remove('active');
-      btnLink.classList.add('active');
-    }
-  }
-
-  function ambilDariLink() {
-    if (!isLoggedIn) return alert('Login dulu untuk menggunakan fitur ini');
-    const link = document.getElementById('linkInput').value.trim();
-    if (!link) return alert('Masukkan link dulu');
-    alert('Fitur ambil otomatis dari link masih dalam pengembangan.\n\nSementara silakan download dulu audio-nya (bisa pakai cobalt.tools), lalu upload lewat mode Upload File.');
-  }
-
   async function updateTotalUsers() {
     try {
       const { count, error } = await sb.from('rezzz-audio').select('*', { count: 'exact', head: true });
-      totalUsersEl.innerText = error ? 'Total Pengguna Aktif: -' : 'Total Pengguna Aktif: ' + (count || 0);
-    } catch (err) {
-      totalUsersEl.innerText = 'Total Pengguna Aktif: -';
+      totalUsersEl.innerText = error ? 'Total Pengguna: -' : 'Total Pengguna: ' + (count || 0);
+    } catch (e) {
+      totalUsersEl.innerText = 'Total Pengguna: -';
     }
   }
 
@@ -646,7 +473,6 @@
     document.getElementById('modalUsername').value = '';
     document.getElementById('modalPassword').value = '';
     document.getElementById('modalOverlay').classList.add('show');
-    document.getElementById('modalUsername').focus();
   }
 
   function closeModal() {
@@ -656,26 +482,26 @@
   async function submitModal() {
     const username = document.getElementById('modalUsername').value.trim();
     const password = document.getElementById('modalPassword').value;
-    if (!username || !password) return alert('Username dan Password wajib diisi');
+    if (!username || !password) return alert('Username & password wajib');
 
     if (modalMode === 'daftar') {
       const { error } = await sb.from('rezzz-audio').insert([{
         username, password, is_premium: false, daily_count: 0,
         last_reset: new Date().toISOString().slice(0, 10)
       }]);
-      if (error) alert('Gagal daftar: ' + error.message);
+      if (error) alert('Gagal: ' + error.message);
       else {
-        alert('Akun berhasil dibuat! Silakan login.');
+        alert('Akun dibuat. Silakan login.');
         closeModal();
         updateTotalUsers();
       }
     } else {
       const { data, error } = await sb.from('rezzz-audio').select('*')
         .eq('username', username).eq('password', password).single();
-      if (error || !data) alert('Username atau password salah');
+      if (error || !data) alert('Username / password salah');
       else {
         localStorage.setItem('loginUser', username);
-        loginStatus.innerText = 'Login sebagai: ' + username;
+        loginStatus.innerText = 'Login: ' + username;
         isLoggedIn = true;
         unlockEditor();
         await checkPremiumStatus();
@@ -695,30 +521,29 @@
     try {
       const { data, error } = await sb.from('redeem_codes').select('*')
         .eq('code', kode).eq('used', false).single();
-      if (error) return alert('Error: ' + (error.message || JSON.stringify(error)));
-      if (!data) return alert('Kode tidak valid atau sudah dipakai');
+      if (error) return alert('Error: ' + (error.message || 'kode gagal'));
+      if (!data) return alert('Kode tidak valid / sudah dipakai');
 
       const until = new Date();
       until.setDate(until.getDate() + Number(data.days));
 
-      const { error: updateError } = await sb.from('rezzz-audio').update({
+      const { error: upErr } = await sb.from('rezzz-audio').update({
         is_premium: true,
         premium_until: until.toISOString()
       }).eq('username', username);
-
-      if (updateError) return alert('Gagal aktifkan premium: ' + updateError.message);
+      if (upErr) return alert('Gagal aktifkan: ' + upErr.message);
 
       await sb.from('redeem_codes').update({ used: true }).eq('code', kode);
       await checkPremiumStatus();
       alert('Premium aktif sampai ' + until.toLocaleDateString('id-ID'));
-    } catch (err) {
-      alert('Error: ' + err.message);
+    } catch (e) {
+      alert('Error: ' + e.message);
     }
   }
 
   fileInput.addEventListener('change', async e => {
     if (!isLoggedIn) {
-      alert('Login dulu untuk menggunakan fitur ini');
+      alert('Login dulu');
       fileInput.value = '';
       return;
     }
@@ -726,7 +551,7 @@
     const file = e.target.files[0];
     if (!file) return;
     if (!isPremium && file.size > 10 * 1024 * 1024) {
-      alert('Maksimal 10MB untuk user gratis');
+      alert('Maks 10MB untuk free');
       fileInput.value = '';
       return;
     }
@@ -735,10 +560,10 @@
     player.src = URL.createObjectURL(file);
     player.onloadedmetadata = () => {
       if (!isPremium && player.duration > 400) {
-        alert('Maksimal 400 detik untuk user gratis');
+        alert('Maks 400 detik untuk free');
         player.src = '';
         currentFile = null;
-        fileName.textContent = 'Belum ada file dipilih';
+        fileName.textContent = 'MP3 / OGG / WAV';
         downloadBtn.disabled = true;
         return;
       }
@@ -746,27 +571,27 @@
     };
   });
 
-  function setPreset(speedVal, dbVal, btn) {
-    if (!isLoggedIn) return alert('Login dulu untuk menggunakan fitur ini');
-    speed.value = speedVal;
-    db.value = dbVal;
-    updateSpeed(speedVal);
-    dbText.textContent = dbVal + ' dB';
-    document.querySelectorAll('.preset-grid .preset-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
+  function setPreset(s, d, btn) {
+    if (!isLoggedIn) return alert('Login dulu');
+    speed.value = s;
+    db.value = d;
+    updateSpeed(s);
+    dbText.textContent = d + ' dB';
+    document.querySelectorAll('.presets button').forEach(b => b.classList.remove('on'));
+    if (btn) btn.classList.add('on');
   }
 
   function updateSpeed(val) {
     player.playbackRate = val;
     speedText.textContent = val + 'x';
     const game = (1 / val).toFixed(2);
-    descBox.innerHTML = '<strong>Custom Speed ' + val + 'x</strong><br>Estimasi In Game <strong>' + game + '</strong><br>Semakin besar speed, musik akan semakin cepat.';
+    descBox.innerHTML = '<b>Speed ' + val + 'x</b><br>Estimasi In Game <b>' + game + '</b>';
   }
 
   speed.addEventListener('input', () => {
     if (!isLoggedIn) return;
     updateSpeed(parseFloat(speed.value));
-    document.querySelectorAll('.preset-grid .preset-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.presets button').forEach(b => b.classList.remove('on'));
   });
 
   db.addEventListener('input', () => {
@@ -774,105 +599,58 @@
     dbText.textContent = db.value + ' dB';
   });
 
-  function bufferToMp3(buffer) {
-    const numChannels = buffer.numberOfChannels;
-    const sampleRate = buffer.sampleRate;
-    const mp3encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, 128);
-    const samples = [];
-    const left = buffer.getChannelData(0);
-    const right = numChannels > 1 ? buffer.getChannelData(1) : left;
-    const sampleBlockSize = 1152;
-
-    function floatTo16Bit(input) {
-      const output = new Int16Array(input.length);
-      for (let i = 0; i < input.length; i++) {
-        let s = Math.max(-1, Math.min(1, input[i]));
-        output[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
-      }
-      return output;
+  function floatTo16(input) {
+    const out = new Int16Array(input.length);
+    for (let i = 0; i < input.length; i++) {
+      let s = Math.max(-1, Math.min(1, input[i]));
+      out[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
     }
-
-    const left16 = floatTo16Bit(left);
-    const right16 = floatTo16Bit(right);
-
-    for (let i = 0; i < left16.length; i += sampleBlockSize) {
-      const leftChunk = left16.subarray(i, i + sampleBlockSize);
-      const rightChunk = right16.subarray(i, i + sampleBlockSize);
-      const mp3buf = numChannels === 1
-        ? mp3encoder.encodeBuffer(leftChunk)
-        : mp3encoder.encodeBuffer(leftChunk, rightChunk);
-      if (mp3buf.length > 0) samples.push(mp3buf);
-    }
-    const end = mp3encoder.flush();
-    if (end.length > 0) samples.push(end);
-    return new Blob(samples, { type: 'audio/mp3' });
+    return out;
   }
 
-  async function bufferToOgg(buffer) {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const dest = ctx.createMediaStreamDestination();
-    const source = ctx.createBufferSource();
-    source.buffer = buffer;
-    source.connect(dest);
-
-    const candidates = ['audio/ogg;codecs=opus', 'audio/webm;codecs=opus', 'audio/ogg'];
-    let mime = '';
-    for (const m of candidates) {
-      if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) {
-        mime = m;
-        break;
-      }
+  function bufferToMp3(buffer) {
+    const ch = buffer.numberOfChannels;
+    const rate = buffer.sampleRate;
+    const enc = new lamejs.Mp3Encoder(ch, rate, 128);
+    const left = floatTo16(buffer.getChannelData(0));
+    const right = ch > 1 ? floatTo16(buffer.getChannelData(1)) : left;
+    const blocks = [];
+    const size = 1152;
+    for (let i = 0; i < left.length; i += size) {
+      const l = left.subarray(i, i + size);
+      const r = right.subarray(i, i + size);
+      const buf = ch === 1 ? enc.encodeBuffer(l) : enc.encodeBuffer(l, r);
+      if (buf.length) blocks.push(buf);
     }
-    if (!mime) {
-      await ctx.close();
-      throw new Error('Browser tidak support OGG. Coba pilih MP3.');
-    }
-
-    const recorder = new MediaRecorder(dest.stream, { mimeType: mime, audioBitsPerSecond: 128000 });
-    const chunks = [];
-
-    return new Promise((resolve, reject) => {
-      recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
-      recorder.onerror = e => reject(e.error || new Error('Gagal rekam OGG'));
-      recorder.onstop = async () => {
-        try { await ctx.close(); } catch (_) {}
-        const ext = mime.includes('webm') ? 'webm' : 'ogg';
-        resolve({ blob: new Blob(chunks, { type: mime }), ext });
-      };
-      recorder.start(100);
-      source.start(0);
-      source.onended = () => setTimeout(() => {
-        if (recorder.state !== 'inactive') recorder.stop();
-      }, 200);
-    });
+    const end = enc.flush();
+    if (end.length) blocks.push(end);
+    return new Blob(blocks, { type: 'audio/mp3' });
   }
 
   async function processAudio(file, speedVal, dbVal) {
-    const arrayBuffer = await file.arrayBuffer();
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-    const gainValue = Math.pow(10, dbVal / 20);
-    const newLength = Math.ceil(audioBuffer.length / speedVal);
+    const ab = await file.arrayBuffer();
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const srcBuf = await ctx.decodeAudioData(ab);
 
-    const offlineCtx = new OfflineAudioContext(
-      audioBuffer.numberOfChannels,
-      newLength,
-      audioBuffer.sampleRate
-    );
+    // downsample biar lebih cepat
+    const targetRate = Math.min(srcBuf.sampleRate, 22050);
+    const duration = srcBuf.duration / speedVal;
+    const frames = Math.ceil(duration * targetRate);
+    const offline = new OfflineAudioContext(srcBuf.numberOfChannels, frames, targetRate);
 
-    const source = offlineCtx.createBufferSource();
-    source.buffer = audioBuffer;
+    const source = offline.createBufferSource();
+    source.buffer = srcBuf;
     source.playbackRate.value = speedVal;
 
-    const gainNode = offlineCtx.createGain();
-    gainNode.gain.value = gainValue;
+    const gain = offline.createGain();
+    gain.gain.value = Math.pow(10, dbVal / 20);
 
-    source.connect(gainNode);
-    gainNode.connect(offlineCtx.destination);
+    source.connect(gain);
+    gain.connect(offline.destination);
     source.start(0);
 
-    const rendered = await offlineCtx.startRendering();
-    try { await audioCtx.close(); } catch (_) {}
+    const rendered = await offline.startRendering();
+    try { await ctx.close(); } catch (_) {}
     return rendered;
   }
 
@@ -891,47 +669,30 @@
       await sb.from('rezzz-audio').update({ daily_count: 0, last_reset: today }).eq('username', username);
       data.daily_count = 0;
     }
-    if (!isPremium && data.daily_count >= 12) return alert('Limit gratis 12x hari ini habis');
+    if (!isPremium && data.daily_count >= 12) return alert('Limit free 12x hari ini habis');
     if (!isPremium) {
       await sb.from('rezzz-audio').update({ daily_count: data.daily_count + 1 }).eq('username', username);
     }
 
     downloadBtn.disabled = true;
-    downloadBtn.innerText = 'Sedang diproses...';
+    downloadBtn.innerText = 'Memproses...';
 
     try {
-      const speedVal = parseFloat(speed.value);
-      const dbVal = parseFloat(db.value);
-      const rendered = await processAudio(currentFile, speedVal, dbVal);
-
-      let blob, ext;
-      if (downloadFormat === 'mp3') {
-        blob = bufferToMp3(rendered);
-        ext = 'mp3';
-      } else {
-        try {
-          const result = await bufferToOgg(rendered);
-          blob = result.blob;
-          ext = result.ext;
-        } catch (e) {
-          alert((e && e.message ? e.message : 'OGG gagal') + '\n\nOtomatis pakai MP3.');
-          blob = bufferToMp3(rendered);
-          ext = 'mp3';
-        }
-      }
-
+      const rendered = await processAudio(currentFile, parseFloat(speed.value), parseFloat(db.value));
+      const blob = bufferToMp3(rendered);
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'edited-' + currentFile.name.replace(/\.[^.]+$/, '') + '.' + ext;
+      const gameName = (1 / parseFloat(speed.value)).toFixed(2);
+      a.download = 'Bypass' + gameName + '.mp3';
       a.click();
       URL.revokeObjectURL(url);
     } catch (err) {
-      alert('Gagal proses audio: ' + (err.message || err));
+      alert('Gagal: ' + (err.message || err));
     }
 
     downloadBtn.disabled = false;
-    downloadBtn.innerText = 'Download Musik';
+    downloadBtn.innerText = 'Download MP3';
   });
 </script>
 </body>
