@@ -163,6 +163,21 @@
   .upload .n { font-size: 11px; color: #7b8bb0; margin-top: 5px; word-break: break-all; }
   input[type="file"] { display: none; }
 
+  .yt-box {
+    margin-bottom: 12px;
+  }
+  .yt-box input {
+    width: 100%;
+    padding: 11px 12px;
+    border-radius: 11px;
+    border: 1px solid #2a3a5c;
+    background: #0a1020;
+    color: #fff;
+    font-size: 13px;
+    outline: none;
+  }
+  .yt-box input:focus { border-color: #4facfe; }
+
   audio {
     width: 100%;
     margin: 10px 0 2px;
@@ -313,6 +328,12 @@
   <div class="card" id="editorArea">
     <h3>Editor</h3>
 
+    <!-- YouTube Link -->
+    <div class="yt-box">
+      <input type="text" id="ytLink" placeholder="Paste link YouTube di sini...">
+      <button class="btn btn-blue" id="ytBtn" onclick="fromYoutube()">Ambil dari YouTube</button>
+    </div>
+
     <label class="upload" for="audioFile">
       <div class="ic">📤</div>
       <div class="t">Upload Musik</div>
@@ -390,6 +411,7 @@
   const db = document.getElementById('db');
   const dbText = document.getElementById('dbText');
   const totalUsersEl = document.getElementById('totalUsers');
+  const ytBtn = document.getElementById('ytBtn');
 
   let currentFile = null;
   let isLoggedIn = false;
@@ -538,6 +560,47 @@
     }
   }
 
+  // ===== YouTube Feature =====
+  function extractVideoId(url) {
+    const reg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(reg);
+    return match ? match[1] : null;
+  }
+
+  async function fromYoutube() {
+    if (!isLoggedIn) return alert('Login dulu');
+    const link = document.getElementById('ytLink').value.trim();
+    if (!link) return alert('Masukkan link YouTube dulu');
+
+    const videoId = extractVideoId(link);
+    if (!videoId) return alert('Link YouTube tidak valid');
+
+    ytBtn.disabled = true;
+    ytBtn.textContent = 'Mengunduh...';
+
+    try {
+      // Coba beberapa sumber publik (sering berubah)
+      // 1. Vevioz style (bisa mati sewaktu-waktu)
+      const tryUrls = [
+        `https://api.vevioz.com/api/button/mp3/${videoId}`,
+        // Kalau mau tambah sumber lain bisa di sini
+      ];
+
+      // Karena pure frontend sulit, kita kasih opsi realistis:
+      // Buka converter di tab baru + kasih instruksi
+      alert('Fitur auto-download YouTube di browser sering diblokir YouTube.\n\nCara terbaik sekarang:\n1. Buka converter (akan terbuka tab baru)\n2. Download MP3-nya\n3. Upload ke Rezzz Audio ini\n\nKualitas edit tetap tinggi supaya peluang lolos copyright bagus.');
+      
+      window.open(`https://ytmp3.as/en19/?v=${videoId}`, '_blank');
+      // Alternatif lain: https://cobalt.tools/ atau ytmp3.cc
+
+    } catch (e) {
+      alert('Gagal ambil dari YouTube: ' + e.message);
+    }
+
+    ytBtn.disabled = false;
+    ytBtn.textContent = 'Ambil dari YouTube';
+  }
+
   fileInput.addEventListener('change', async e => {
     if (!isLoggedIn) {
       alert('Login dulu');
@@ -608,7 +671,7 @@
   function bufferToMp3(buffer) {
     const ch = buffer.numberOfChannels;
     const rate = buffer.sampleRate;
-    const enc = new lamejs.Mp3Encoder(ch, rate, 192); // bitrate 192kbps (lebih bagus)
+    const enc = new lamejs.Mp3Encoder(ch, rate, 192);
     const left = floatTo16(buffer.getChannelData(0));
     const right = ch > 1 ? floatTo16(buffer.getChannelData(1)) : left;
     const blocks = [];
@@ -629,7 +692,6 @@
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     const srcBuf = await ctx.decodeAudioData(ab);
 
-    // Kualitas tinggi: tetap 44100 Hz
     const targetRate = 44100;
     const duration = srcBuf.duration / speedVal;
     const frames = Math.ceil(duration * targetRate);
