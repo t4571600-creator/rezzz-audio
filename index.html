@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rezzz Audio</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',Arial,sans-serif;
+  background:#020b1f;
+  color:white;
+}
+
+.container{
+  max-width:430px;
+  margin:auto;
+  padding:20px 16px 40px;
+}
+
+h1{
+  text-align:center;
+  color:#ffc400;
+  font-size:40px;
+  margin:26px 0 6px;
+  font-weight:800;
+}
+
+.sub{
+  text-align:center;
+  color:#9fb2d9;
+  margin-bottom:18px;
+  font-size:14px;
+}
+
+/* SOCIAL BUTTONS */
+.socials{
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.social{
+  text-decoration:none;
+  color:white;
+  font-weight:700;
+  padding:12px 18px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  transition:transform .15s ease, opacity .15s ease;
+}
+
+.social:hover{
+  transform:translateY(-2px);
+  opacity:.95;
+}
+
+.discord{
+  background:#5865F2;
+}
+
+.tiktok{
+  background:#111;
+  border:1px solid #333;
+}
+
+.card{
+  background:#0b1735;
+  border-radius:26px;
+  padding:22px 18px;
+  box-shadow:0 10px 30px rgba(0,0,0,.45);
+}
+
+.upload{
+  border:2px dashed #ffc400;
+  border-radius:18px;
+  padding:22px 16px;
+  text-align:center;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center;
+  justify-content:center;
+}
+
+.upload-icon{
+  font-size:30px;
+}
+
+.upload-title{
+  font-size:20px;
+  font-weight:700;
+}
+
+#fileName{
+  font-size:13px;
+  color:#d7d7d7;
+  width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+input[type=file]{
+  display:none;
+}
+
+audio{
+  width:100%;
+  margin:18px 0 12px;
+  border-radius:16px;
+}
+
+.section-title{
+  font-size:15px;
+  color:#c8d3ef;
+  margin:12px 0 10px;
+  font-weight:700;
+}
+
+.preset-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.preset-btn{
+  background:#132247;
+  color:#dfe8ff;
+  border:1px solid #223a73;
+  border-radius:12px;
+  padding:10px 8px;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.preset-btn.active{
+  background:#ffc400;
+  color:#111;
+  border-color:#ffc400;
+}
+
+.row{
+  margin-top:20px;
+}
+
+.label{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+  font-size:17px;
+  font-weight:700;
+}
+
+input[type=range]{
+  width:100%;
+}
+
+.desc{
+  margin-top:10px;
+  background:#09142d;
+  border:1px solid #1b2a52;
+  border-radius:14px;
+  padding:12px;
+  font-size:13px;
+  color:#d9e4ff;
+  line-height:1.5;
+}
+
+.desc strong{
+  color:#ffc400;
+}
+
+button.download{
+  width:100%;
+  margin-top:24px;
+  padding:16px;
+  border:none;
+  border-radius:16px;
+  font-size:18px;
+  font-weight:800;
+  color:#111;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ffd400,#ff7b61);
+}
+
+.note{
+  margin-top:14px;
+  text-align:center;
+  font-size:12px;
+  color:#9fb2d9;
+}
+
+.footer{
+  text-align:center;
+  margin-top:20px;
+  font-size:12px;
+  color:#7f93c4;
+}
+
+@media (max-width:480px){
+  h1{font-size:36px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>Rezzz Audio</h1>
+  <div class="sub">Audio Editor by Rezzz</div>
+
+  <div class="socials">
+    <a href="https://discord.com/users/zinbotol" target="_blank" class="social discord">
+      💬 Discord
+    </a>
+
+    <a href="https://www.tiktok.com/@rezzzstudio" target="_blank" class="social tiktok">
+      🎵 TikTok
+    </a>
+  </div>
+
+  <div class="card">
+
+    <label class="upload" for="audioFile">
+      <div class="upload-icon">📤</div>
+      <div class="upload-title">Upload Musik</div>
+      <div id="fileName">Belum ada file dipilih</div>
+    </label>
+
+    <input type="file" id="audioFile" accept="audio/*">
+
+    <audio id="player" controls></audio>
+
+    <div class="section-title">Mode Preset</div>
+
+    <div class="preset-grid">
+      <button class="preset-btn" data-speed="2.1" data-desc="Slow mode • In Game 0.48">Slow 2.1x</button>
+
+      <button class="preset-btn active" data-speed="2.3" data-desc="Default mode • Normal In Game 0.43">Default 2.3x</button>
+
+      <button class="preset-btn" data-speed="2.5" data-desc="Fast mode • In Game 0.40">Fast 2.5x</button>
+
+      <button class="preset-btn" data-speed="2.7" data-desc="Faster mode • In Game 0.37">Faster 2.7x</button>
+
+      <button class="preset-btn" data-speed="2.9" data-desc="Ultra mode • In Game 0.34">Ultra 2.9x</button>
+
+      <button class="preset-btn" data-speed="3.2" data-desc="Extreme mode • In Game 0.31">Extreme 3.2x</button>
+    </div>
+
+    <div class="row">
+      <div class="label">
+        <span>Speed</span>
+        <span id="speedText">2.3x</span>
+      </div>
+
+      <input type="range"
+             id="speed"
+             min="0.5"
+             max="5"
+             step="0.1"
+             value="2.3">
+    </div>
+
+    <div class="desc" id="descBox">
+      <strong>Default 2.3x</strong><br>
+      Normal In Game <strong>0.43</strong><br>
+      Cocok untuk musik Roblox dengan playback speed normal.
+    </div>
+
+    <button class="download" id="downloadBtn" disabled>
+      Download Musik
+    </button>
+
+    <div class="note">
+      Upload lagu → pilih mode → atur speed manual jika perlu → download hasilnya.
+    </div>
+
+  </div>
+
+  <div class="footer">
+    © 2026 Rezzz Studio • All Rights Reserved
+  </div>
+
+</div>
+
+<script>
+const fileInput = document.getElementById('audioFile');
+const player = document.getElementById('player');
+const fileName = document.getElementById('fileName');
+
+const speed = document.getElementById('speed');
+const speedText = document.getElementById('speedText');
+const descBox = document.getElementById('descBox');
+
+const downloadBtn = document.getElementById('downloadBtn');
+const presetBtns = document.querySelectorAll('.preset-btn');
+
+let currentFile = null;
+
+fileInput.addEventListener('change', e => {
+  const file = e.target.files[0];
+  if(!file) return;
+
+  currentFile = file;
+  fileName.textContent = file.name;
+  player.src = URL.createObjectURL(file);
+  downloadBtn.disabled = false;
+});
+
+function updateDescription(v){
+  const gameSpeed = (1 / parseFloat(v)).toFixed(2);
+
+  descBox.innerHTML =
+    '<strong>Custom Speed ' + v + 'x</strong><br>' +
+    'Estimasi In Game <strong>' + gameSpeed + '</strong><br>' +
+    'Semakin besar speed, musik akan semakin cepat.';
+}
+
+speed.addEventListener('input', () => {
+  const v = speed.value;
+
+  speedText.textContent = v + 'x';
+  player.playbackRate = parseFloat(v);
+
+  presetBtns.forEach(b => b.classList.remove('active'));
+
+  updateDescription(v);
+});
+
+presetBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+
+    presetBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const v = btn.dataset.speed;
+
+    speed.value = v;
+    speedText.textContent = v + 'x';
+    player.playbackRate = parseFloat(v);
+
+    descBox.innerHTML =
+      '<strong>' + btn.textContent + '</strong><br>' +
+      btn.dataset.desc + '<br>' +
+      'Rekomendasi preset untuk upload Roblox.';
+  });
+});
+
+downloadBtn.addEventListener('click', () => {
+  if(!currentFile) return;
+
+  const a = document.createElement('a');
+  a.href = player.src;
+  a.download = 'edited-' + currentFile.name;
+  a.click();
+});
+</script>
+
+</body>
+</html>
