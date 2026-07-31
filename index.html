@@ -247,9 +247,7 @@
     font-size: 13.5px;
     border-bottom: 1px solid #3a2e10;
   }
-  .harga-item:last-of-type {
-    border-bottom: none;
-  }
+  .harga-item:last-of-type { border-bottom: none; }
   .harga-item span:last-child {
     color: #ffd84d;
     font-weight: 700;
@@ -375,6 +373,12 @@
     color: #a8b8d9;
     margin-top: 8px;
   }
+  .format-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+  }
+  .format-row .preset-btn { flex: 1; margin-top: 0; }
 </style>
 </head>
 <body>
@@ -457,6 +461,14 @@
       <input type="range" id="db" min="-20" max="20" value="0">
     </div>
 
+    <div class="row">
+      <div class="label"><span>Format Download</span></div>
+      <div class="format-row">
+        <button type="button" class="preset-btn active" id="fmtOgg" onclick="setFormat('ogg', this)">OGG (Roblox)</button>
+        <button type="button" class="preset-btn" id="fmtMp3" onclick="setFormat('mp3', this)">MP3</button>
+      </div>
+    </div>
+
     <div class="desc" id="descBox">
       <strong>Default 2.3x</strong><br>
       Estimasi In Game <strong>0.43</strong><br>
@@ -496,6 +508,7 @@
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
   const sb = window.supabase.createClient(
@@ -521,6 +534,7 @@
   let isLoggedIn = false;
   let isPremium = false;
   let modalMode = 'daftar';
+  let downloadFormat = 'ogg';
 
   updateTotalUsers();
 
@@ -532,6 +546,13 @@
     checkPremiumStatus();
   } else {
     lockEditor();
+  }
+
+  function setFormat(fmt, btn) {
+    downloadFormat = fmt;
+    document.getElementById('fmtOgg').classList.remove('active');
+    document.getElementById('fmtMp3').classList.remove('active');
+    if (btn) btn.classList.add('active');
   }
 
   async function checkPremiumStatus() {
@@ -731,7 +752,7 @@
     db.value = dbVal;
     updateSpeed(speedVal);
     dbText.textContent = dbVal + ' dB';
-    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.preset-grid .preset-btn').forEach(b => b.classList.remove('active'));
     if (btn) btn.classList.add('active');
   }
 
@@ -745,7 +766,7 @@
   speed.addEventListener('input', () => {
     if (!isLoggedIn) return;
     updateSpeed(parseFloat(speed.value));
-    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.preset-grid .preset-btn').forEach(b => b.classList.remove('active'));
   });
 
   db.addEventListener('input', () => {
@@ -753,40 +774,77 @@
     dbText.textContent = db.value + ' dB';
   });
 
-  function bufferToWav(buffer) {
+  function bufferToMp3(buffer) {
     const numChannels = buffer.numberOfChannels;
     const sampleRate = buffer.sampleRate;
-    const bitDepth = 16;
-    const bytesPerSample = bitDepth / 8;
-    const blockAlign = numChannels * bytesPerSample;
-    const dataLength = buffer.length * blockAlign;
-    const arrayBuffer = new ArrayBuffer(44 + dataLength);
-    const view = new DataView(arrayBuffer);
-    function writeString(offset, str) {
-      for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+    const mp3encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, 128);
+    const samples = [];
+    const left = buffer.getChannelData(0);
+    const right = numChannels > 1 ? buffer.getChannelData(1) : left;
+    const sampleBlockSize = 1152;
+
+    function floatTo16Bit(input) {
+      const output = new Int16Array(input.length);
+      for (let i = 0; i < input.length; i++) {
+        let s = Math.max(-1, Math.min(1, input[i]));
+        output[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+      }
+      return output;
     }
-    writeString(0, 'RIFF');
-    view.setUint32(4, 36 + dataLength, true);
-    writeString(8, 'WAVE');
-    writeString(12, 'fmt ');
-    view.setUint32(16, 16, true);
-    view.setUint16(20, 1, true);
-    view.setUint16(22, numChannels, true);
-    view.setUint32(24, sampleRate, true);
-    view.setUint32(28, sampleRate * blockAlign, true);
-    view.setUint16(32, blockAlign, true);
-    view.setUint16(34, bitDepth, true);
-    writeString(36, 'data');
-    view.setUint32(40, dataLength, true);
-    let offset = 44;
-    for (let i = 0; i < buffer.length; i++) {
-      for (let ch = 0; ch < numChannels; ch++) {
-        let sample = Math.max(-1, Math.min(1, buffer.getChannelData(ch)[i]));
-        view.setInt16(offset, sample < 0 ? sample * 0x8000 : sample * 0x7FFF, true);
-        offset += 2;
+
+    const left16 = floatTo16Bit(left);
+    const right16 = floatTo16Bit(right);
+
+    for (let i = 0; i < left16.length; i += sampleBlockSize) {
+      const leftChunk = left16.subarray(i, i + sampleBlockSize);
+      const rightChunk = right16.subarray(i, i + sampleBlockSize);
+      const mp3buf = numChannels === 1
+        ? mp3encoder.encodeBuffer(leftChunk)
+        : mp3encoder.encodeBuffer(leftChunk, rightChunk);
+      if (mp3buf.length > 0) samples.push(mp3buf);
+    }
+    const end = mp3encoder.flush();
+    if (end.length > 0) samples.push(end);
+    return new Blob(samples, { type: 'audio/mp3' });
+  }
+
+  async function bufferToOgg(buffer) {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const dest = ctx.createMediaStreamDestination();
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(dest);
+
+    const candidates = ['audio/ogg;codecs=opus', 'audio/webm;codecs=opus', 'audio/ogg'];
+    let mime = '';
+    for (const m of candidates) {
+      if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) {
+        mime = m;
+        break;
       }
     }
-    return new Blob([arrayBuffer], { type: 'audio/wav' });
+    if (!mime) {
+      await ctx.close();
+      throw new Error('Browser tidak support OGG. Coba pilih MP3.');
+    }
+
+    const recorder = new MediaRecorder(dest.stream, { mimeType: mime, audioBitsPerSecond: 128000 });
+    const chunks = [];
+
+    return new Promise((resolve, reject) => {
+      recorder.ondataavailable = e => { if (e.data && e.data.size > 0) chunks.push(e.data); };
+      recorder.onerror = e => reject(e.error || new Error('Gagal rekam OGG'));
+      recorder.onstop = async () => {
+        try { await ctx.close(); } catch (_) {}
+        const ext = mime.includes('webm') ? 'webm' : 'ogg';
+        resolve({ blob: new Blob(chunks, { type: mime }), ext });
+      };
+      recorder.start(100);
+      source.start(0);
+      source.onended = () => setTimeout(() => {
+        if (recorder.state !== 'inactive') recorder.stop();
+      }, 200);
+    });
   }
 
   async function processAudio(file, speedVal, dbVal) {
@@ -795,18 +853,27 @@
     const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
     const gainValue = Math.pow(10, dbVal / 20);
     const newLength = Math.ceil(audioBuffer.length / speedVal);
-    const offlineCtx = new OfflineAudioContext(audioBuffer.numberOfChannels, newLength, audioBuffer.sampleRate);
+
+    const offlineCtx = new OfflineAudioContext(
+      audioBuffer.numberOfChannels,
+      newLength,
+      audioBuffer.sampleRate
+    );
+
     const source = offlineCtx.createBufferSource();
     source.buffer = audioBuffer;
     source.playbackRate.value = speedVal;
+
     const gainNode = offlineCtx.createGain();
     gainNode.gain.value = gainValue;
+
     source.connect(gainNode);
     gainNode.connect(offlineCtx.destination);
     source.start(0);
+
     const rendered = await offlineCtx.startRendering();
-    await audioCtx.close();
-    return bufferToWav(rendered);
+    try { await audioCtx.close(); } catch (_) {}
+    return rendered;
   }
 
   downloadBtn.addEventListener('click', async () => {
@@ -835,15 +902,32 @@
     try {
       const speedVal = parseFloat(speed.value);
       const dbVal = parseFloat(db.value);
-      const blob = await processAudio(currentFile, speedVal, dbVal);
+      const rendered = await processAudio(currentFile, speedVal, dbVal);
+
+      let blob, ext;
+      if (downloadFormat === 'mp3') {
+        blob = bufferToMp3(rendered);
+        ext = 'mp3';
+      } else {
+        try {
+          const result = await bufferToOgg(rendered);
+          blob = result.blob;
+          ext = result.ext;
+        } catch (e) {
+          alert((e && e.message ? e.message : 'OGG gagal') + '\n\nOtomatis pakai MP3.');
+          blob = bufferToMp3(rendered);
+          ext = 'mp3';
+        }
+      }
+
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'edited-' + currentFile.name.replace(/\.[^.]+$/, '') + '.wav';
+      a.download = 'edited-' + currentFile.name.replace(/\.[^.]+$/, '') + '.' + ext;
       a.click();
       URL.revokeObjectURL(url);
     } catch (err) {
-      alert('Gagal proses audio: ' + err.message);
+      alert('Gagal proses audio: ' + (err.message || err));
     }
 
     downloadBtn.disabled = false;
