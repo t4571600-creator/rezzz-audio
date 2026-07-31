@@ -495,11 +495,12 @@
       • No limit durasi<br>
       • No limit edit
     </div>
+    
 
     <button class="btn" id="downloadBtn" disabled>Download Musik</button>
     <div class="note">Free: 10MB • 400s • 12x/hari — Premium: Unlimited</div>
-       </div>
- 
+  </div>
+
   <div class="footer">© 2026 Rezzz Studio</div>
 </div>
 
@@ -585,7 +586,6 @@
           stillPremium = true;
           isPremium = true;
 
-          // Hitung sisa hari
           const diffMs = until - now;
           const sisaHari = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
@@ -602,7 +602,6 @@
             '💎 Premium aktif — sisa <strong>' + teksSisa + '</strong><br>' +
             '<span style="font-size:12px;opacity:0.9">(sampai ' + tgl + ')</span>';
         } else {
-          // Expired → matikan premium di DB
           await sb.from('rezzz-audio').update({
             is_premium: false
           }).eq('username', username);
@@ -611,7 +610,6 @@
           premiumStatusEl.innerText = 'Premium sudah habis — bisa redeem lagi';
         }
       } else if (data.is_premium && !data.premium_until) {
-        // Data lama tanpa tanggal → anggap expired biar aman
         await sb.from('rezzz-audio').update({
           is_premium: false
         }).eq('username', username);
@@ -760,30 +758,44 @@
     const code = prompt('Masukkan kode premium');
     if (!code) return;
 
-    const { data, error } = await sb
-      .from('redeem_codes')
-      .select('*')
-      .eq('code', code)
-      .eq('used', false)
-      .single();
+    const kode = code.trim().toUpperCase();
 
-    if (error || !data) {
-      return alert('Kode tidak valid');
+    try {
+      const { data, error } = await sb
+        .from('redeem_codes')
+        .select('*')
+        .eq('code', kode)
+        .eq('used', false)
+        .single();
+
+      if (error) {
+        console.error(error);
+        return alert('Error: ' + (error.message || JSON.stringify(error)));
+      }
+
+      if (!data) {
+        return alert('Kode tidak valid atau sudah dipakai');
+      }
+
+      const until = new Date();
+      until.setDate(until.getDate() + Number(data.days));
+
+      const { error: updateError } = await sb.from('rezzz-audio').update({
+        is_premium: true,
+        premium_until: until.toISOString()
+      }).eq('username', username);
+
+      if (updateError) {
+        return alert('Gagal aktifkan premium: ' + updateError.message);
+      }
+
+      await sb.from('redeem_codes').update({ used: true }).eq('code', kode);
+
+      await checkPremiumStatus();
+      alert('Premium aktif sampai ' + until.toLocaleDateString('id-ID'));
+    } catch (err) {
+      alert('Error: ' + err.message);
     }
-
-    // Hitung dari sekarang + jumlah hari di kode (biar pas, tidak lebih)
-    const until = new Date();
-    until.setDate(until.getDate() + Number(data.days));
-
-    await sb.from('rezzz-audio').update({
-      is_premium: true,
-      premium_until: until.toISOString()
-    }).eq('username', username);
-
-    await sb.from('redeem_codes').update({ used: true }).eq('code', code);
-
-    await checkPremiumStatus();
-    alert('Premium aktif sampai ' + until.toLocaleDateString('id-ID'));
   }
 
   fileInput.addEventListener('change', async e => {
@@ -864,7 +876,6 @@
 
     const username = localStorage.getItem('loginUser');
 
-    // Cek ulang premium biar tidak bisa lewat batas hari
     await checkPremiumStatus();
 
     const { data } = await sb
@@ -885,7 +896,6 @@
       data.daily_count = 0;
     }
 
-    // Pakai isPremium yang sudah dicek (bukan cuma is_premium di DB)
     if (!isPremium && data.daily_count >= 12) {
       return alert('Limit gratis 12x hari ini habis');
     }
@@ -906,4 +916,3 @@
 </script>
 </body>
 </html>
- 
