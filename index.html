@@ -5,295 +5,58 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Rezzz Audio</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-    background: #070b14;
-    color: #e8eefc;
-    min-height: 100vh;
-  }
-  .wrap {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 18px 14px 40px;
-  }
-  .brand {
-    text-align: center;
-    margin-bottom: 18px;
-  }
-  .brand h1 {
-    font-size: 26px;
-    font-weight: 800;
-    background: linear-gradient(90deg, #ffd84d, #ff9f1c);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .brand p {
-    color: #7b8bb0;
-    font-size: 12px;
-    margin-top: 3px;
-  }
-  .links {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  .links a {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    border-radius: 11px;
-    text-decoration: none;
-    color: #fff;
-    font-weight: 700;
-    font-size: 13px;
-  }
-  .links .dc { background: #5865F2; }
-  .links .tt { background: #1a1a1a; border: 1px solid #333; }
-
-  .card {
-    background: #0e1526;
-    border: 1px solid #1c2744;
-    border-radius: 16px;
-    padding: 14px;
-    margin-bottom: 12px;
-  }
-  .card h3 {
-    color: #ffd84d;
-    font-size: 13px;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-
-  .btn {
-    width: 100%;
-    border: none;
-    border-radius: 11px;
-    padding: 12px;
-    font-size: 13.5px;
-    font-weight: 800;
-    cursor: pointer;
-    margin-top: 7px;
-  }
-  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-  .btn-gold {
-    background: linear-gradient(90deg, #ffd84d, #ffb703);
-    color: #111;
-  }
-  .btn-blue {
-    background: linear-gradient(90deg, #4facfe, #00c6ff);
-    color: #fff;
-  }
-  .btn-prem {
-    background: linear-gradient(90deg, #d4af37, #f7e27a);
-    color: #111;
-  }
-  .btn-ghost {
-    background: #152038;
-    color: #c5d0ea;
-    border: 1px solid #2a3a5c;
-  }
-
-  .info {
-    margin-top: 8px;
-    padding: 9px 11px;
-    border-radius: 9px;
-    background: #0a1020;
-    font-size: 12px;
-    text-align: center;
-    color: #9aaccf;
-  }
-  .info.ok {
-    background: #1a1505;
-    border: 1px solid #d4af37;
-    color: #f7e27a;
-    font-weight: 700;
-  }
-  .info.bad {
-    background: #1a0a0a;
-    border: 1px solid #5a2a2a;
-    color: #e8a0a0;
-    font-weight: 700;
-  }
-  .info.blue {
-    border: 1px solid #1f2e5a;
-    color: #4facfe;
-    font-weight: 700;
-  }
-
-  .harga {
-    margin-top: 10px;
-    border-top: 1px solid #1c2744;
-    padding-top: 10px;
-  }
-  .harga-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12.5px;
-    padding: 5px 0;
-    color: #c5d0ea;
-  }
-  .harga-row b { color: #ffd84d; }
-  .wa {
-    display: block;
-    margin-top: 9px;
-    text-align: center;
-    background: #25D366;
-    color: #fff;
-    padding: 10px;
-    border-radius: 11px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 13px;
-  }
-
-  .upload {
-    display: block;
-    border: 1.5px dashed #3a4d75;
-    border-radius: 13px;
-    padding: 18px 12px;
-    text-align: center;
-    cursor: pointer;
-    background: #0a1020;
-  }
-  .upload:hover { border-color: #ffd84d; }
-  .upload .ic { font-size: 24px; margin-bottom: 4px; }
-  .upload .t { font-weight: 700; font-size: 13.5px; }
-  .upload .n { font-size: 11px; color: #7b8bb0; margin-top: 5px; word-break: break-all; }
-  input[type="file"] { display: none; }
-
-  .yt-box {
-    margin-bottom: 12px;
-  }
-  .yt-box input {
-    width: 100%;
-    padding: 11px 12px;
-    border-radius: 11px;
-    border: 1px solid #2a3a5c;
-    background: #0a1020;
-    color: #fff;
-    font-size: 13px;
-    outline: none;
-  }
-  .yt-box input:focus { border-color: #4facfe; }
-
-  audio {
-    width: 100%;
-    margin: 10px 0 2px;
-    height: 38px;
-    border-radius: 9px;
-  }
-
-  .presets {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 6px;
-    margin: 10px 0 2px;
-  }
-  .presets button {
-    background: #152038;
-    border: 1px solid #2a3a5c;
-    color: #c5d0ea;
-    border-radius: 9px;
-    padding: 9px 3px;
-    font-size: 11.5px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .presets button.on {
-    background: #1a3058;
-    border-color: #4facfe;
-    color: #fff;
-  }
-
-  .slider-row { margin-top: 12px; }
-  .slider-row .lab {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12.5px;
-    font-weight: 700;
-    margin-bottom: 7px;
-  }
-  .slider-row .lab span:last-child { color: #ffd84d; }
-  input[type="range"] {
-    width: 100%;
-    height: 5px;
-    -webkit-appearance: none;
-    appearance: none;
-    background: #1a2744;
-    border-radius: 8px;
-    outline: none;
-  }
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 17px;
-    height: 17px;
-    border-radius: 50%;
-    background: #4facfe;
-    cursor: pointer;
-    box-shadow: 0 0 6px rgba(79,172,254,0.4);
-  }
-
-  .tip {
-    margin-top: 10px;
-    padding: 9px 11px;
-    border-radius: 10px;
-    background: #0a1020;
-    border: 1px solid #1c2744;
-    font-size: 12px;
-    line-height: 1.45;
-    color: #9aaccf;
-  }
-  .tip b { color: #ffd84d; }
-
-  .locked { opacity: 0.5; pointer-events: none; }
-  .foot {
-    text-align: center;
-    margin-top: 16px;
-    color: #4a5a7a;
-    font-size: 11px;
-  }
-
-  .modal-bg {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.72);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    z-index: 99;
-    padding: 18px;
-  }
-  .modal-bg.show { display: flex; }
-  .modal {
-    background: #0e1526;
-    border: 1px solid #1c2744;
-    border-radius: 16px;
-    padding: 18px 16px;
-    width: 100%;
-    max-width: 300px;
-  }
-  .modal h3 {
-    text-align: center;
-    color: #ffd84d;
-    margin-bottom: 12px;
-    font-size: 16px;
-  }
-  .modal input {
-    width: 100%;
-    padding: 11px 12px;
-    border-radius: 10px;
-    border: 1px solid #2a3a5c;
-    background: #0a1020;
-    color: #fff;
-    font-size: 13.5px;
-    margin-bottom: 9px;
-    outline: none;
-  }
-  .modal input:focus { border-color: #4facfe; }
-  .modal-actions { display: flex; gap: 8px; margin-top: 4px; }
-  .modal-actions .btn { margin-top: 0; flex: 1; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#0f0b14;color:#ede9fe;min-height:100vh}
+.wrap{max-width:400px;margin:0 auto;padding:20px 16px 40px}
+.brand{text-align:center;margin-bottom:22px}
+.brand h1{font-size:28px;font-weight:800;background:linear-gradient(90deg,#c4b5fd,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.brand p{color:#a78bfa;font-size:12px;margin-top:4px;opacity:.8}
+.links{display:flex;gap:8px;margin-bottom:16px}
+.links a{flex:1;text-align:center;padding:11px;border-radius:12px;text-decoration:none;color:#fff;font-weight:700;font-size:13px}
+.dc{background:#5865F2}.tt{background:#1a1225;border:1px solid #2e1f45}
+.card{background:#16101f;border:1px solid #2a1f3d;border-radius:18px;padding:16px;margin-bottom:14px}
+.card h3{color:#c4b5fd;font-size:13px;font-weight:700;margin-bottom:12px;letter-spacing:.3px}
+.btn{width:100%;border:none;border-radius:12px;padding:13px;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-gold{background:linear-gradient(90deg,#c4b5fd,#a78bfa);color:#1a0b2e}
+.btn-blue{background:linear-gradient(90deg,#8b5cf6,#7c3aed);color:#fff}
+.btn-prem{background:linear-gradient(90deg,#ddd6fe,#c4b5fd);color:#1a0b2e}
+.btn-ghost{background:#1e152c;color:#c4b5fd;border:1px solid #3b2a55}
+.info{margin-top:9px;padding:10px 12px;border-radius:10px;background:#120c1a;font-size:12.5px;text-align:center;color:#a78bfa}
+.info.ok{background:#1a1225;border:1px solid #a78bfa;color:#ddd6fe;font-weight:700}
+.info.bad{background:#1a0a12;border:1px solid #5a2a3a;color:#e8a0b0;font-weight:700}
+.info.blue{border:1px solid #3b2a55;color:#c4b5fd;font-weight:700}
+.harga{margin-top:12px;border-top:1px solid #2a1f3d;padding-top:12px}
+.harga-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;color:#c4b5fd}
+.harga-row b{color:#ddd6fe}
+.wa{display:block;margin-top:10px;text-align:center;background:#25D366;color:#fff;padding:12px;border-radius:12px;text-decoration:none;font-weight:700;font-size:13px}
+.upload{display:block;border:1.5px dashed #3b2a55;border-radius:14px;padding:22px 14px;text-align:center;cursor:pointer;background:#120c1a;transition:border-color .2s}
+.upload:hover{border-color:#c4b5fd}
+.upload .ic{font-size:26px;margin-bottom:6px}
+.upload .t{font-weight:700;font-size:14px}
+.upload .n{font-size:11px;color:#a78bfa;margin-top:6px;word-break:break-all;opacity:.8}
+input[type=file]{display:none}
+audio{width:100%;margin:12px 0 4px;height:40px;border-radius:10px}
+.presets{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0 4px}
+.presets button{background:#1e152c;border:1px solid #3b2a55;color:#c4b5fd;border-radius:10px;padding:11px 6px;font-size:12.5px;font-weight:600;cursor:pointer}
+.presets button.on{background:#2a1f45;border-color:#a78bfa;color:#fff}
+.slider-row{margin-top:14px}
+.slider-row .lab{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:8px}
+.slider-row .lab span:last-child{color:#c4b5fd}
+input[type=range]{width:100%;height:5px;-webkit-appearance:none;appearance:none;background:#2a1f3d;border-radius:8px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:#a78bfa;cursor:pointer;box-shadow:0 0 8px rgba(167,139,250,.45)}
+.tip{margin-top:12px;padding:11px 12px;border-radius:12px;background:#120c1a;border:1px solid #2a1f3d;font-size:12.5px;line-height:1.5;color:#a78bfa}
+.tip b{color:#ddd6fe}
+.locked{opacity:.5;pointer-events:none}
+.foot{text-align:center;margin-top:18px;color:#5b4a75;font-size:11px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:99;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:#16101f;border:1px solid #2a1f3d;border-radius:18px;padding:22px 18px;width:100%;max-width:320px}
+.modal h3{text-align:center;color:#c4b5fd;margin-bottom:14px;font-size:17px}
+.modal input{width:100%;padding:12px 13px;border-radius:11px;border:1px solid #3b2a55;background:#120c1a;color:#fff;font-size:14px;margin-bottom:10px;outline:none}
+.modal input:focus{border-color:#a78bfa}
+.modal-actions{display:flex;gap:8px;margin-top:6px}
+.modal-actions .btn{margin-top:0;flex:1}
 </style>
 </head>
 <body>
@@ -316,7 +79,6 @@
     <div class="info" id="loginStatus">Belum login</div>
     <div class="info" id="premiumStatus" style="display:none"></div>
     <div class="info blue" id="totalUsers">Total Pengguna: ...</div>
-
     <div class="harga">
       <div class="harga-row"><span>3 Hari</span><b>Rp 25.000</b></div>
       <div class="harga-row"><span>7 Hari</span><b>Rp 50.000</b></div>
@@ -327,54 +89,40 @@
 
   <div class="card" id="editorArea">
     <h3>Editor</h3>
-
-    <!-- YouTube Link -->
-    <div class="yt-box">
-      <input type="text" id="ytLink" placeholder="Paste link YouTube di sini...">
-      <button class="btn btn-blue" id="ytBtn" onclick="fromYoutube()">Ambil dari YouTube</button>
-    </div>
-
     <label class="upload" for="audioFile">
       <div class="ic">📤</div>
       <div class="t">Upload Musik</div>
       <div class="n" id="fileName">MP3 / OGG / WAV</div>
     </label>
     <input type="file" id="audioFile" accept="audio/*">
-
     <audio id="player" controls></audio>
 
     <div class="presets">
-      <button onclick="setPreset(2.1, 0, this)">Slow 2.1x</button>
-      <button onclick="setPreset(2.3, 0, this)">Default 2.3x</button>
-      <button onclick="setPreset(2.5, 1, this)">Fast 2.5x</button>
-      <button onclick="setPreset(2.7, 2, this)">Faster 2.7x</button>
-      <button onclick="setPreset(2.9, 3, this)">Ultra 2.9x</button>
-      <button onclick="setPreset(3.2, 4, this)">Extreme 3.2x</button>
+      <button onclick="setPreset(2.3,-3,this)" class="on">Default 2.3x</button>
+      <button onclick="setPreset(3.0,-2,this)">Recommend 3x</button>
+      <button onclick="setPreset(2.1,-1,this)">Slow 2.1x</button>
+      <button onclick="setPreset(2.5,0,this)">Fast 2.5x</button>
+      <button onclick="setPreset(2.7,1,this)">Faster 2.7x</button>
+      <button onclick="setPreset(3.2,2,this)">Extreme 3.2x</button>
     </div>
 
     <div class="slider-row">
       <div class="lab"><span>Speed</span><span id="speedText">2.3x</span></div>
       <input type="range" id="speed" min="0.5" max="5" step="0.1" value="2.3">
     </div>
-
     <div class="slider-row">
-      <div class="lab"><span>dB</span><span id="dbText">0 dB</span></div>
-      <input type="range" id="db" min="-20" max="20" value="0">
+      <div class="lab"><span>dB</span><span id="dbText">-3 dB</span></div>
+      <input type="range" id="db" min="-20" max="20" value="-3">
     </div>
 
     <div class="tip" id="descBox">
-      <b>Default 2.3x</b><br>
-      Estimasi In Game <b>0.43</b> — cocok musik Roblox normal.
+      <b>Default 2.3x / -3dB</b><br>Estimasi In Game <b>0.43</b> — cocok musik Roblox normal.
     </div>
-
     <div class="tip">
-      <b>Free</b> · 10MB · 400s · 12x/hari &nbsp;|&nbsp;
-      <b style="color:#f7e27a">Premium</b> · Unlimited
+      <b>Free</b> · 10MB · 400s · 12x/hari &nbsp;|&nbsp; <b style="color:#ddd6fe">Premium</b> · Unlimited
     </div>
-
     <button class="btn btn-gold" id="downloadBtn" disabled>Download MP3</button>
   </div>
-
   <div class="foot">© 2026 Rezzz Studio</div>
 </div>
 
@@ -393,367 +141,135 @@
 <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  const sb = window.supabase.createClient(
-    'https://piqsobwblwzwbenbzhkx.supabase.co',
-    'sb_publishable_pL17zeNQZJg9ky-E9gak1A_hx3BccCl'
-  );
+const sb=window.supabase.createClient('https://piqsobwblwzwbenbzhkx.supabase.co','sb_publishable_pL17zeNQZJg9ky-E9gak1A_hx3BccCl');
+const loginStatus=document.getElementById('loginStatus'),premiumStatusEl=document.getElementById('premiumStatus'),editorArea=document.getElementById('editorArea'),fileInput=document.getElementById('audioFile'),player=document.getElementById('player'),fileName=document.getElementById('fileName'),downloadBtn=document.getElementById('downloadBtn'),speed=document.getElementById('speed'),speedText=document.getElementById('speedText'),descBox=document.getElementById('descBox'),db=document.getElementById('db'),dbText=document.getElementById('dbText'),totalUsersEl=document.getElementById('totalUsers');
+let currentFile=null,isLoggedIn=false,isPremium=false,modalMode='daftar';
+updateTotalUsers();
+const savedUser=localStorage.getItem('loginUser');
+if(savedUser){isLoggedIn=true;loginStatus.innerText='Login: '+savedUser;unlockEditor();checkPremiumStatus()}else lockEditor();
 
-  const loginStatus = document.getElementById('loginStatus');
-  const premiumStatusEl = document.getElementById('premiumStatus');
-  const editorArea = document.getElementById('editorArea');
-  const fileInput = document.getElementById('audioFile');
-  const player = document.getElementById('player');
-  const fileName = document.getElementById('fileName');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const speed = document.getElementById('speed');
-  const speedText = document.getElementById('speedText');
-  const descBox = document.getElementById('descBox');
-  const db = document.getElementById('db');
-  const dbText = document.getElementById('dbText');
-  const totalUsersEl = document.getElementById('totalUsers');
-  const ytBtn = document.getElementById('ytBtn');
-
-  let currentFile = null;
-  let isLoggedIn = false;
-  let isPremium = false;
-  let modalMode = 'daftar';
-
-  updateTotalUsers();
-
-  const savedUser = localStorage.getItem('loginUser');
-  if (savedUser) {
-    isLoggedIn = true;
-    loginStatus.innerText = 'Login: ' + savedUser;
-    unlockEditor();
-    checkPremiumStatus();
-  } else {
-    lockEditor();
-  }
-
-  async function checkPremiumStatus() {
-    const username = localStorage.getItem('loginUser');
-    if (!username) {
-      isPremium = false;
-      premiumStatusEl.style.display = 'none';
-      return false;
-    }
-    try {
-      const { data, error } = await sb.from('rezzz-audio').select('*').eq('username', username).single();
-      if (error || !data) {
-        isPremium = false;
-        premiumStatusEl.style.display = 'none';
-        return false;
+async function checkPremiumStatus(){
+  const username=localStorage.getItem('loginUser');
+  if(!username){isPremium=false;premiumStatusEl.style.display='none';return false}
+  try{
+    const{data,error}=await sb.from('rezzz-audio').select('*').eq('username',username).single();
+    if(error||!data){isPremium=false;premiumStatusEl.style.display='none';return false}
+    const now=new Date();
+    if(data.is_premium&&data.premium_until){
+      const until=new Date(data.premium_until);
+      if(until>now){
+        isPremium=true;
+        const sisa=Math.ceil((until-now)/86400000);
+        const tgl=until.toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+        premiumStatusEl.style.display='block';premiumStatusEl.className='info ok';
+        premiumStatusEl.innerHTML='💎 Premium · sisa '+Math.max(sisa,1)+' hari · '+tgl;return true
       }
-      const now = new Date();
-      if (data.is_premium && data.premium_until) {
-        const until = new Date(data.premium_until);
-        if (until > now) {
-          isPremium = true;
-          const sisa = Math.ceil((until - now) / 86400000);
-          const tgl = until.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
-          premiumStatusEl.style.display = 'block';
-          premiumStatusEl.className = 'info ok';
-          premiumStatusEl.innerHTML = '💎 Premium · sisa ' + Math.max(sisa, 1) + ' hari · ' + tgl;
-          return true;
-        }
-        await sb.from('rezzz-audio').update({ is_premium: false }).eq('username', username);
-      }
-      isPremium = false;
-      if (data.is_premium) {
-        premiumStatusEl.style.display = 'block';
-        premiumStatusEl.className = 'info bad';
-        premiumStatusEl.innerText = 'Premium habis · redeem lagi';
-      } else {
-        premiumStatusEl.style.display = 'none';
-      }
-      return false;
-    } catch (e) {
-      isPremium = false;
-      return false;
+      await sb.from('rezzz-audio').update({is_premium:false}).eq('username',username)
     }
+    isPremium=false;
+    if(data.is_premium){premiumStatusEl.style.display='block';premiumStatusEl.className='info bad';premiumStatusEl.innerText='Premium habis · redeem lagi'}
+    else premiumStatusEl.style.display='none';
+    return false
+  }catch(e){isPremium=false;return false}
+}
+async function updateTotalUsers(){
+  try{const{count,error}=await sb.from('rezzz-audio').select('*',{count:'exact',head:true});totalUsersEl.innerText=error?'Total Pengguna: -':'Total Pengguna: '+(count||0)}catch(e){totalUsersEl.innerText='Total Pengguna: -'}
+}
+function lockEditor(){editorArea.classList.add('locked')}
+function unlockEditor(){editorArea.classList.remove('locked')}
+function openModal(mode){modalMode=mode;document.getElementById('modalTitle').innerText=mode==='daftar'?'Daftar':'Login';document.getElementById('modalSubmit').innerText=mode==='daftar'?'Daftar':'Login';document.getElementById('modalUsername').value='';document.getElementById('modalPassword').value='';document.getElementById('modalOverlay').classList.add('show')}
+function closeModal(){document.getElementById('modalOverlay').classList.remove('show')}
+async function submitModal(){
+  const username=document.getElementById('modalUsername').value.trim(),password=document.getElementById('modalPassword').value;
+  if(!username||!password)return alert('Username & password wajib');
+  if(modalMode==='daftar'){
+    const{error}=await sb.from('rezzz-audio').insert([{username,password,is_premium:false,daily_count:0,last_reset:new Date().toISOString().slice(0,10)}]);
+    if(error)alert('Gagal: '+error.message);else{alert('Akun dibuat. Silakan login.');closeModal();updateTotalUsers()}
+  }else{
+    const{data,error}=await sb.from('rezzz-audio').select('*').eq('username',username).eq('password',password).single();
+    if(error||!data)alert('Username / password salah');
+    else{localStorage.setItem('loginUser',username);loginStatus.innerText='Login: '+username;isLoggedIn=true;unlockEditor();await checkPremiumStatus();alert('Login berhasil');closeModal()}
   }
-
-  async function updateTotalUsers() {
-    try {
-      const { count, error } = await sb.from('rezzz-audio').select('*', { count: 'exact', head: true });
-      totalUsersEl.innerText = error ? 'Total Pengguna: -' : 'Total Pengguna: ' + (count || 0);
-    } catch (e) {
-      totalUsersEl.innerText = 'Total Pengguna: -';
-    }
+}
+async function redeem(){
+  const username=localStorage.getItem('loginUser');
+  if(!username)return alert('Login dulu');
+  const code=prompt('Masukkan kode premium');if(!code)return;
+  const kode=code.trim().toUpperCase();
+  try{
+    const{data,error}=await sb.from('redeem_codes').select('*').eq('code',kode).eq('used',false).single();
+    if(error)return alert('Error: '+(error.message||'kode gagal'));
+    if(!data)return alert('Kode tidak valid / sudah dipakai');
+    const until=new Date();until.setDate(until.getDate()+Number(data.days));
+    const{error:upErr}=await sb.from('rezzz-audio').update({is_premium:true,premium_until:until.toISOString()}).eq('username',username);
+    if(upErr)return alert('Gagal aktifkan: '+upErr.message);
+    await sb.from('redeem_codes').update({used:true}).eq('code',kode);
+    await checkPremiumStatus();alert('Premium aktif sampai '+until.toLocaleDateString('id-ID'))
+  }catch(e){alert('Error: '+e.message)}
+}
+fileInput.addEventListener('change',async e=>{
+  if(!isLoggedIn){alert('Login dulu');fileInput.value='';return}
+  await checkPremiumStatus();
+  const file=e.target.files[0];if(!file)return;
+  if(!isPremium&&file.size>10*1024*1024){alert('Maks 10MB untuk free');fileInput.value='';return}
+  currentFile=file;fileName.textContent=file.name;player.src=URL.createObjectURL(file);
+  player.onloadedmetadata=()=>{
+    if(!isPremium&&player.duration>400){alert('Maks 400 detik untuk free');player.src='';currentFile=null;fileName.textContent='MP3 / OGG / WAV';downloadBtn.disabled=true;return}
+    downloadBtn.disabled=false
   }
-
-  function lockEditor() { editorArea.classList.add('locked'); }
-  function unlockEditor() { editorArea.classList.remove('locked'); }
-
-  function openModal(mode) {
-    modalMode = mode;
-    document.getElementById('modalTitle').innerText = mode === 'daftar' ? 'Daftar' : 'Login';
-    document.getElementById('modalSubmit').innerText = mode === 'daftar' ? 'Daftar' : 'Login';
-    document.getElementById('modalUsername').value = '';
-    document.getElementById('modalPassword').value = '';
-    document.getElementById('modalOverlay').classList.add('show');
-  }
-
-  function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('show');
-  }
-
-  async function submitModal() {
-    const username = document.getElementById('modalUsername').value.trim();
-    const password = document.getElementById('modalPassword').value;
-    if (!username || !password) return alert('Username & password wajib');
-
-    if (modalMode === 'daftar') {
-      const { error } = await sb.from('rezzz-audio').insert([{
-        username, password, is_premium: false, daily_count: 0,
-        last_reset: new Date().toISOString().slice(0, 10)
-      }]);
-      if (error) alert('Gagal: ' + error.message);
-      else {
-        alert('Akun dibuat. Silakan login.');
-        closeModal();
-        updateTotalUsers();
-      }
-    } else {
-      const { data, error } = await sb.from('rezzz-audio').select('*')
-        .eq('username', username).eq('password', password).single();
-      if (error || !data) alert('Username / password salah');
-      else {
-        localStorage.setItem('loginUser', username);
-        loginStatus.innerText = 'Login: ' + username;
-        isLoggedIn = true;
-        unlockEditor();
-        await checkPremiumStatus();
-        alert('Login berhasil');
-        closeModal();
-      }
-    }
-  }
-
-  async function redeem() {
-    const username = localStorage.getItem('loginUser');
-    if (!username) return alert('Login dulu');
-    const code = prompt('Masukkan kode premium');
-    if (!code) return;
-    const kode = code.trim().toUpperCase();
-
-    try {
-      const { data, error } = await sb.from('redeem_codes').select('*')
-        .eq('code', kode).eq('used', false).single();
-      if (error) return alert('Error: ' + (error.message || 'kode gagal'));
-      if (!data) return alert('Kode tidak valid / sudah dipakai');
-
-      const until = new Date();
-      until.setDate(until.getDate() + Number(data.days));
-
-      const { error: upErr } = await sb.from('rezzz-audio').update({
-        is_premium: true,
-        premium_until: until.toISOString()
-      }).eq('username', username);
-      if (upErr) return alert('Gagal aktifkan: ' + upErr.message);
-
-      await sb.from('redeem_codes').update({ used: true }).eq('code', kode);
-      await checkPremiumStatus();
-      alert('Premium aktif sampai ' + until.toLocaleDateString('id-ID'));
-    } catch (e) {
-      alert('Error: ' + e.message);
-    }
-  }
-
-  // ===== YouTube Feature =====
-  function extractVideoId(url) {
-    const reg = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-    const match = url.match(reg);
-    return match ? match[1] : null;
-  }
-
-  async function fromYoutube() {
-    if (!isLoggedIn) return alert('Login dulu');
-    const link = document.getElementById('ytLink').value.trim();
-    if (!link) return alert('Masukkan link YouTube dulu');
-
-    const videoId = extractVideoId(link);
-    if (!videoId) return alert('Link YouTube tidak valid');
-
-    ytBtn.disabled = true;
-    ytBtn.textContent = 'Mengunduh...';
-
-    try {
-      // Coba beberapa sumber publik (sering berubah)
-      // 1. Vevioz style (bisa mati sewaktu-waktu)
-      const tryUrls = [
-        `https://api.vevioz.com/api/button/mp3/${videoId}`,
-        // Kalau mau tambah sumber lain bisa di sini
-      ];
-
-      // Karena pure frontend sulit, kita kasih opsi realistis:
-      // Buka converter di tab baru + kasih instruksi
-      alert('Fitur auto-download YouTube di browser sering diblokir YouTube.\n\nCara terbaik sekarang:\n1. Buka converter (akan terbuka tab baru)\n2. Download MP3-nya\n3. Upload ke Rezzz Audio ini\n\nKualitas edit tetap tinggi supaya peluang lolos copyright bagus.');
-      
-      window.open(`https://ytmp3.as/en19/?v=${videoId}`, '_blank');
-      // Alternatif lain: https://cobalt.tools/ atau ytmp3.cc
-
-    } catch (e) {
-      alert('Gagal ambil dari YouTube: ' + e.message);
-    }
-
-    ytBtn.disabled = false;
-    ytBtn.textContent = 'Ambil dari YouTube';
-  }
-
-  fileInput.addEventListener('change', async e => {
-    if (!isLoggedIn) {
-      alert('Login dulu');
-      fileInput.value = '';
-      return;
-    }
-    await checkPremiumStatus();
-    const file = e.target.files[0];
-    if (!file) return;
-    if (!isPremium && file.size > 10 * 1024 * 1024) {
-      alert('Maks 10MB untuk free');
-      fileInput.value = '';
-      return;
-    }
-    currentFile = file;
-    fileName.textContent = file.name;
-    player.src = URL.createObjectURL(file);
-    player.onloadedmetadata = () => {
-      if (!isPremium && player.duration > 400) {
-        alert('Maks 400 detik untuk free');
-        player.src = '';
-        currentFile = null;
-        fileName.textContent = 'MP3 / OGG / WAV';
-        downloadBtn.disabled = true;
-        return;
-      }
-      downloadBtn.disabled = false;
-    };
-  });
-
-  function setPreset(s, d, btn) {
-    if (!isLoggedIn) return alert('Login dulu');
-    speed.value = s;
-    db.value = d;
-    updateSpeed(s);
-    dbText.textContent = d + ' dB';
-    document.querySelectorAll('.presets button').forEach(b => b.classList.remove('on'));
-    if (btn) btn.classList.add('on');
-  }
-
-  function updateSpeed(val) {
-    player.playbackRate = val;
-    speedText.textContent = val + 'x';
-    const game = (1 / val).toFixed(2);
-    descBox.innerHTML = '<b>Speed ' + val + 'x</b><br>Estimasi In Game <b>' + game + '</b>';
-  }
-
-  speed.addEventListener('input', () => {
-    if (!isLoggedIn) return;
-    updateSpeed(parseFloat(speed.value));
-    document.querySelectorAll('.presets button').forEach(b => b.classList.remove('on'));
-  });
-
-  db.addEventListener('input', () => {
-    if (!isLoggedIn) return;
-    dbText.textContent = db.value + ' dB';
-  });
-
-  function floatTo16(input) {
-    const out = new Int16Array(input.length);
-    for (let i = 0; i < input.length; i++) {
-      let s = Math.max(-1, Math.min(1, input[i]));
-      out[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
-    }
-    return out;
-  }
-
-  function bufferToMp3(buffer) {
-    const ch = buffer.numberOfChannels;
-    const rate = buffer.sampleRate;
-    const enc = new lamejs.Mp3Encoder(ch, rate, 192);
-    const left = floatTo16(buffer.getChannelData(0));
-    const right = ch > 1 ? floatTo16(buffer.getChannelData(1)) : left;
-    const blocks = [];
-    const size = 1152;
-    for (let i = 0; i < left.length; i += size) {
-      const l = left.subarray(i, i + size);
-      const r = right.subarray(i, i + size);
-      const buf = ch === 1 ? enc.encodeBuffer(l) : enc.encodeBuffer(l, r);
-      if (buf.length) blocks.push(buf);
-    }
-    const end = enc.flush();
-    if (end.length) blocks.push(end);
-    return new Blob(blocks, { type: 'audio/mp3' });
-  }
-
-  async function processAudio(file, speedVal, dbVal) {
-    const ab = await file.arrayBuffer();
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const srcBuf = await ctx.decodeAudioData(ab);
-
-    const targetRate = 44100;
-    const duration = srcBuf.duration / speedVal;
-    const frames = Math.ceil(duration * targetRate);
-    const offline = new OfflineAudioContext(srcBuf.numberOfChannels, frames, targetRate);
-
-    const source = offline.createBufferSource();
-    source.buffer = srcBuf;
-    source.playbackRate.value = speedVal;
-
-    const gain = offline.createGain();
-    gain.gain.value = Math.pow(10, dbVal / 20);
-
-    source.connect(gain);
-    gain.connect(offline.destination);
-    source.start(0);
-
-    const rendered = await offline.startRendering();
-    try { await ctx.close(); } catch (_) {}
-    return rendered;
-  }
-
-  downloadBtn.addEventListener('click', async () => {
-    if (!isLoggedIn) return alert('Login dulu');
-    if (!currentFile) return alert('Upload file dulu');
-
-    const username = localStorage.getItem('loginUser');
-    await checkPremiumStatus();
-
-    const { data } = await sb.from('rezzz-audio').select('*').eq('username', username).single();
-    if (!data) return alert('Data user tidak ditemukan');
-
-    const today = new Date().toISOString().slice(0, 10);
-    if (data.last_reset !== today) {
-      await sb.from('rezzz-audio').update({ daily_count: 0, last_reset: today }).eq('username', username);
-      data.daily_count = 0;
-    }
-    if (!isPremium && data.daily_count >= 12) return alert('Limit free 12x hari ini habis');
-    if (!isPremium) {
-      await sb.from('rezzz-audio').update({ daily_count: data.daily_count + 1 }).eq('username', username);
-    }
-
-    downloadBtn.disabled = true;
-    downloadBtn.textContent = 'Memproses...';
-
-    try {
-      const speedVal = parseFloat(speed.value);
-      const dbVal = parseFloat(db.value);
-      const rendered = await processAudio(currentFile, speedVal, dbVal);
-      const blob = bufferToMp3(rendered);
-
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = currentFile.name.replace(/\.[^/.]+$/, '') + '_rezzz_' + speedVal + 'x.mp3';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    } catch (err) {
-      alert('Gagal proses: ' + err.message);
-    }
-
-    downloadBtn.disabled = false;
-    downloadBtn.textContent = 'Download MP3';
-  });
+});
+function setPreset(s,d,btn){
+  if(!isLoggedIn)return alert('Login dulu');
+  speed.value=s;db.value=d;updateSpeed(s);dbText.textContent=d+' dB';
+  document.querySelectorAll('.presets button').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on')
+}
+function updateSpeed(val){
+  player.playbackRate=val;speedText.textContent=val+'x';
+  const game=(1/val).toFixed(2);
+  descBox.innerHTML='<b>Speed '+val+'x</b><br>Estimasi In Game <b>'+game+'</b>'
+}
+speed.addEventListener('input',()=>{if(!isLoggedIn)return;updateSpeed(parseFloat(speed.value));document.querySelectorAll('.presets button').forEach(b=>b.classList.remove('on'))});
+db.addEventListener('input',()=>{if(!isLoggedIn)return;dbText.textContent=db.value+' dB'});
+function floatTo16(input){const out=new Int16Array(input.length);for(let i=0;i<input.length;i++){let s=Math.max(-1,Math.min(1,input[i]));out[i]=s<0?s*0x8000:s*0x7FFF}return out}
+function bufferToMp3(buffer){
+  const ch=buffer.numberOfChannels,rate=buffer.sampleRate,enc=new lamejs.Mp3Encoder(ch,rate,256);
+  const left=floatTo16(buffer.getChannelData(0)),right=ch>1?floatTo16(buffer.getChannelData(1)):left,blocks=[],size=1152;
+  for(let i=0;i<left.length;i+=size){const l=left.subarray(i,i+size),r=right.subarray(i,i+size),buf=ch===1?enc.encodeBuffer(l):enc.encodeBuffer(l,r);if(buf.length)blocks.push(buf)}
+  const end=enc.flush();if(end.length)blocks.push(end);return new Blob(blocks,{type:'audio/mp3'})
+}
+async function processAudio(file,speedVal,dbVal){
+  const ab=await file.arrayBuffer(),ctx=new(window.AudioContext||window.webkitAudioContext)(),srcBuf=await ctx.decodeAudioData(ab);
+  const targetRate=44100,duration=srcBuf.duration/speedVal,frames=Math.ceil(duration*targetRate);
+  const offline=new OfflineAudioContext(srcBuf.numberOfChannels,frames,targetRate);
+  const source=offline.createBufferSource();source.buffer=srcBuf;source.playbackRate.value=speedVal;
+  const pitchOffset=1+(Math.random()*0.04-0.02);
+  source.detune.value=(pitchOffset-1)*100;
+  const gain=offline.createGain();gain.gain.value=Math.pow(10,dbVal/20);
+  const filter=offline.createBiquadFilter();filter.type='peaking';filter.frequency.value=3000;filter.Q.value=0.7;filter.gain.value=1.5;
+  source.connect(filter);filter.connect(gain);gain.connect(offline.destination);source.start(0);
+  const rendered=await offline.startRendering();try{await ctx.close()}catch(_){}
+  return rendered
+}
+downloadBtn.addEventListener('click',async()=>{
+  if(!isLoggedIn)return alert('Login dulu');if(!currentFile)return alert('Upload file dulu');
+  const username=localStorage.getItem('loginUser');await checkPremiumStatus();
+  const{data}=await sb.from('rezzz-audio').select('*').eq('username',username).single();
+  if(!data)return alert('Data user tidak ditemukan');
+  const today=new Date().toISOString().slice(0,10);
+  if(data.last_reset!==today){await sb.from('rezzz-audio').update({daily_count:0,last_reset:today}).eq('username',username);data.daily_count=0}
+  if(!isPremium&&data.daily_count>=12)return alert('Limit free 12x hari ini habis');
+  if(!isPremium)await sb.from('rezzz-audio').update({daily_count:data.daily_count+1}).eq('username',username);
+  downloadBtn.disabled=true;downloadBtn.textContent='Memproses...';
+  try{
+    const speedVal=parseFloat(speed.value),dbVal=parseFloat(db.value);
+    const rendered=await processAudio(currentFile,speedVal,dbVal);
+    const blob=bufferToMp3(rendered);
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=currentFile.name.replace(/\.[^/.]+$/,'')+'_rezzz_'+speedVal+'x.mp3';a.click();URL.revokeObjectURL(a.href)
+  }catch(err){alert('Gagal proses: '+err.message)}
+  downloadBtn.disabled=false;downloadBtn.textContent='Download MP3'
+});
 </script>
 </body>
 </html>
