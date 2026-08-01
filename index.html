@@ -230,7 +230,7 @@ async function autoLogin() {
   if (!savedUser || !savedPass) { lockEditor(); return; }
   try {
     const { data, error } = await sb.from('rezzz-audio').select('*')
-      .eq('username', savedUser).eq('password', savedPass).single();
+      .eq('username', savedUser).eq('password', savedPass.trim()).maybeSingle();
     if (error || !data) { logout(true); return; }
     if (data.device_id && data.device_id !== deviceId) {
       alert('Akun ini sedang dipakai di perangkat lain.\nLogin di sini akan mengeluarkan perangkat lama.');
@@ -312,8 +312,9 @@ function closeModal() { document.getElementById('modalOverlay').classList.remove
 
 async function submitModal() {
   const username = document.getElementById('modalUsername').value.trim();
-  const password = document.getElementById('modalPassword').value;
+  const password = document.getElementById('modalPassword').value.trim();
   if (!username || !password) return alert('Username & password wajib');
+  if (password.length < 3) return alert('Password minimal 3 karakter');
 
   if (modalMode === 'daftar') {
     const { error } = await sb.from('rezzz-audio').insert([{
@@ -324,9 +325,13 @@ async function submitModal() {
     if (error) alert('Gagal: ' + error.message);
     else { alert('Akun dibuat. Silakan login.'); closeModal(); updateTotalUsers(); }
   } else {
-    const { data, error } = await sb.from('rezzz-audio').select('*')
-      .eq('username', username).eq('password', password).single();
-    if (error || !data) return alert('Username / password salah');
+    // cek username dulu
+    const { data: userRow, error: userErr } = await sb.from('rezzz-audio').select('*')
+      .eq('username', username).maybeSingle();
+    if (userErr) return alert('Error database: ' + userErr.message);
+    if (!userRow) return alert('Username tidak ditemukan');
+    if (userRow.password !== password) return alert('Password salah\n(Pastikan tidak ada spasi di depan/belakang)');
+    const data = userRow;
     if (data.device_id && data.device_id !== deviceId) {
       const ok = confirm('Akun ini sedang login di perangkat lain.\nLanjutkan? (perangkat lama akan keluar)');
       if (!ok) return;
