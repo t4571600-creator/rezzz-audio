@@ -344,28 +344,59 @@ async function submitModal() {
 async function redeem() {
   const username = localStorage.getItem('loginUser');
   if (!username) return alert('Login dulu');
+
   const code = prompt('Masukkan kode premium');
   if (!code) return;
   const kode = code.trim().toUpperCase();
 
   try {
-    const { data, error } = await sb.from('redeem_codes').select('*')
-      .eq('code', kode).eq('used', false).single();
-    if (error) return alert('Error: ' + (error.message || 'kode gagal'));
-    if (!data) return alert('Kode tidak valid / sudah dipakai');
+    // Tidak pakai .single() supaya tidak error "Cannot coerce..."
+    const { data, error } = await sb
+      .from('redeem_codes')
+      .select('*')
+      .eq('code', kode)
+      .eq('used', false);
+
+    if (error) {
+      console.error(error);
+      return alert('Error database: ' + error.message);
+    }
+
+    if (!data || data.length === 0) {
+      return alert('Kode tidak valid atau sudah dipakai');
+    }
+
+    const kodeData = data[0];
 
     const until = new Date();
-    until.setDate(until.getDate() + Number(data.days));
+    until.setDate(until.getDate() + Number(kodeData.days || 3));
 
-    const { error: upErr } = await sb.from('rezzz-audio').update({
-      is_premium: true,
-      premium_until: until.toISOString()
-    }).eq('username', username);
-    if (upErr) return alert('Gagal aktifkan: ' + upErr.message);
+    // Aktifkan premium
+    const { error: upErr } = await sb
+      .from('rezzz-audio')
+      .update({
+        is_premium: true,
+        premium_until: until.toISOString()
+      })
+      .eq('username', username);
 
-    await sb.from('redeem_codes').update({ used: true }).eq('code', kode);
+    if (upErr) {
+      return alert('Gagal aktifkan premium: ' + upErr.message);
+    }
+
+    // Tandai kode sudah dipakai
+    const { error: markErr } = await sb
+      .from('redeem_codes')
+      .update({ used: true })
+      .eq('code', kode);
+
+    if (markErr) {
+      console.error('Gagal update kode:', markErr);
+    }
+
     await checkPremiumStatus();
     alert('Premium aktif sampai ' + until.toLocaleDateString('id-ID'));
+
   } catch (e) {
     alert('Error: ' + e.message);
   }
@@ -471,7 +502,6 @@ async function processAudio(file, speedVal, dbVal) {
   source.buffer = srcBuf;
   source.playbackRate.value = speedVal;
 
-  // Sedikit pitch random + EQ untuk bantu ubah fingerprint
   const pitchOffset = 1 + (Math.random() * 0.04 - 0.02);
   source.detune.value = (pitchOffset - 1) * 100;
 
@@ -523,7 +553,6 @@ downloadBtn.addEventListener('click', async () => {
     const rendered = await processAudio(currentFile, speedVal, dbVal);
     const blob = bufferToMp3(rendered);
 
-    // Nama file bersih tanpa underscore (aman untuk Roblox)
     const baseName = currentFile.name
       .replace(/\.[^/.]+$/, '')
       .replace(/[_]+/g, ' ')
