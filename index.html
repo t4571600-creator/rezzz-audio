@@ -230,7 +230,7 @@ async function autoLogin() {
   if (!savedUser || !savedPass) { lockEditor(); return; }
   try {
     const { data, error } = await sb.from('rezzz-audio').select('*')
-      .eq('username', savedUser).eq('password', savedPass.trim()).maybeSingle();
+      .eq('username', savedUser).eq('password', savedPass.trim()).limit(1).maybeSingle();
     if (error || !data) { logout(true); return; }
     if (data.device_id && data.device_id !== deviceId) {
       alert('Akun ini sedang dipakai di perangkat lain.\nLogin di sini akan mengeluarkan perangkat lama.');
@@ -259,7 +259,7 @@ async function checkPremiumStatus() {
   const username = localStorage.getItem('loginUser');
   if (!username) { isPremium = false; premiumStatusEl.style.display = 'none'; return false; }
   try {
-    const { data, error } = await sb.from('rezzz-audio').select('*').eq('username', username).single();
+    const { data, error } = await sb.from('rezzz-audio').select('*').eq('username', username).limit(1).maybeSingle();
     if (error || !data) { isPremium = false; premiumStatusEl.style.display = 'none'; return false; }
     if (data.device_id && data.device_id !== deviceId) {
       alert('Akun dipakai di perangkat lain. Kamu dikeluarkan.');
@@ -317,6 +317,9 @@ async function submitModal() {
   if (password.length < 3) return alert('Password minimal 3 karakter');
 
   if (modalMode === 'daftar') {
+    // cek username sudah ada?
+    const { data: exist } = await sb.from('rezzz-audio').select('username').eq('username', username).limit(1).maybeSingle();
+    if (exist) return alert('Username sudah dipakai, pilih yang lain');
     const { error } = await sb.from('rezzz-audio').insert([{
       username, password, is_premium: false, daily_count: 0,
       last_reset: new Date().toISOString().slice(0, 10),
@@ -327,7 +330,7 @@ async function submitModal() {
   } else {
     // cek username dulu
     const { data: userRow, error: userErr } = await sb.from('rezzz-audio').select('*')
-      .eq('username', username).maybeSingle();
+      .eq('username', username).limit(1).maybeSingle();
     if (userErr) return alert('Error database: ' + userErr.message);
     if (!userRow) return alert('Username tidak ditemukan');
     if (userRow.password !== password) return alert('Password salah\n(Pastikan tidak ada spasi di depan/belakang)');
@@ -489,8 +492,8 @@ downloadBtn.addEventListener('click', async () => {
   const username = localStorage.getItem('loginUser');
   await checkPremiumStatus();
   if (!isLoggedIn) return;
-  const { data } = await sb.from('rezzz-audio').select('*').eq('username', username).single();
-  if (!data) return alert('Data user tidak ditemukan');
+  const { data, error: userErr } = await sb.from('rezzz-audio').select('*').eq('username', username).limit(1).maybeSingle();
+  if (userErr || !data) return alert('Data user tidak ditemukan');
   const today = new Date().toISOString().slice(0, 10);
   if (data.last_reset !== today) {
     await sb.from('rezzz-audio').update({ daily_count: 0, last_reset: today }).eq('username', username);
