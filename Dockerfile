@@ -1,6 +1,5 @@
 FROM python:3.11-slim
 
-# Install Node.js
 RUN apt-get update && apt-get install -y \
     curl \
     ffmpeg \
@@ -8,7 +7,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-# Install yt-dlp
 RUN pip install -U yt-dlp
 
 WORKDIR /app
