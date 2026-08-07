@@ -15,6 +15,7 @@ COPY package.json .
 RUN npm install
 
 COPY server.js .
+COPY cookies.txt .
 
 EXPOSE 3000
 
