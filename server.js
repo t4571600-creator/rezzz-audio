@@ -12,13 +12,13 @@ app.use(express.json({ limit: '2mb' }));
 const PORT = process.env.PORT || 3000;
 const TEMP = '/tmp';
 
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
   res.json({ status: 'Rezzz Audio API aktif', version: '1.2' });
 });
 
-app.post('/download', function (req, res) {
-  var body = req.body || {};
-  var url = body.url;
+app.post('/download', (req, res) => {
+  const body = req.body || {};
+  let url = body.url;
 
   console.log('DOWNLOAD REQUEST:', url);
 
@@ -28,19 +28,63 @@ app.post('/download', function (req, res) {
 
   url = url.trim();
 
-  var ok = url.indexOf('youtube.com') !== -1
-    || url.indexOf('youtu.be') !== -1
-    || url.indexOf('tiktok.com') !== -1
-    || url.indexOf('soundcloud.com') !== -1
-    || url.indexOf('instagram.com') !== -1
-    || url.indexOf('twitter.com') !== -1
-    || url.indexOf('x.com') !== -1;
+  const supported =
+    url.includes('youtube.com') ||
+    url.includes('youtu.be') ||
+    url.includes('tiktok.com') ||
+    url.includes('soundcloud.com') ||
+    url.includes('instagram.com') ||
+    url.includes('twitter.com') ||
+    url.includes('x.com');
 
-  if (!ok) {
+  if (!supported) {
     return res.status(400).json({ error: 'Link tidak didukung' });
   }
 
-  var id = uuidv4().slice(0, 8);
-  var out = path.join(TEMP, 'rezzz-' + id + '.%(ext)s');
+  const id = uuidv4().slice(0, 8);
+  const outputTemplate = path.join(TEMP, `rezzz-${id}.%(ext)s`);
 
-  var
+  // Pakai yt-dlp untuk download audio saja
+  const args = [
+    '-x',                          // extract audio
+    '--audio-format', 'mp3',
+    '--audio-quality', '0',
+    '-o', outputTemplate,
+    '--no-playlist',
+    url
+  ];
+
+  execFile('yt-dlp', args, { timeout: 120000 }, (error, stdout, stderr) => {
+    if (error) {
+      console.error('yt-dlp error:', error.message);
+      console.error(stderr);
+      return res.status(500).json({
+        error: 'Gagal download',
+        detail: error.message
+      });
+    }
+
+    // Cari file hasil download
+    const files = fs.readdirSync(TEMP).filter(f => f.startsWith(`rezzz-${id}`));
+    
+    if (files.length === 0) {
+      return res.status(500).json({ error: 'File tidak ditemukan setelah download' });
+    }
+
+    const filePath = path.join(TEMP, files[0]);
+    const fileName = files[0];
+
+    res.download(filePath, fileName, (err) => {
+      // Hapus file setelah dikirim
+      fs.unlink(filePath, () => {});
+      
+      if (err) {
+        console.error('Download response error:', err.message);
+      }
+    });
+  });
+});
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Rezzz Audio API running on port ${PORT}`);
+});
