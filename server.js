@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 const TEMP = '/tmp';
 
 app.get('/', (req, res) => {
-  res.json({ status: 'Rezzz Audio API aktif', version: '1.2' });
+  res.json({ status: 'Rezzz Audio API aktif', version: '1.3' });
 });
 
 app.post('/download', (req, res) => {
@@ -44,13 +44,14 @@ app.post('/download', (req, res) => {
   const id = uuidv4().slice(0, 8);
   const outputTemplate = path.join(TEMP, `rezzz-${id}.%(ext)s`);
 
-  // Pakai yt-dlp untuk download audio saja
   const args = [
-    '-x',                          // extract audio
+    '-x',
     '--audio-format', 'mp3',
     '--audio-quality', '0',
     '-o', outputTemplate,
     '--no-playlist',
+    '--js-runtimes', 'node',
+    '--no-warnings',
     url
   ];
 
@@ -66,7 +67,7 @@ app.post('/download', (req, res) => {
 
     // Cari file hasil download
     const files = fs.readdirSync(TEMP).filter(f => f.startsWith(`rezzz-${id}`));
-    
+
     if (files.length === 0) {
       return res.status(500).json({ error: 'File tidak ditemukan setelah download' });
     }
@@ -77,7 +78,7 @@ app.post('/download', (req, res) => {
     res.download(filePath, fileName, (err) => {
       // Hapus file setelah dikirim
       fs.unlink(filePath, () => {});
-      
+
       if (err) {
         console.error('Download response error:', err.message);
       }
