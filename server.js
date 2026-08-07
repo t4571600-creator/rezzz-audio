@@ -11,9 +11,14 @@ app.use(express.json({ limit: '2mb' }));
 
 const PORT = process.env.PORT || 3000;
 const TEMP = '/tmp';
+const COOKIES_PATH = path.join(__dirname, 'cookies.txt');
 
 app.get('/', (req, res) => {
-  res.json({ status: 'Rezzz Audio API aktif', version: '1.3' });
+  res.json({
+    status: 'Rezzz Audio API aktif',
+    version: '1.4',
+    cookies: fs.existsSync(COOKIES_PATH) ? 'ada' : 'tidak ada'
+  });
 });
 
 app.post('/download', (req, res) => {
@@ -51,9 +56,18 @@ app.post('/download', (req, res) => {
     '-o', outputTemplate,
     '--no-playlist',
     '--js-runtimes', 'node',
-    '--no-warnings',
-    url
+    '--no-warnings'
   ];
+
+  // Pakai cookies kalau file ada
+  if (fs.existsSync(COOKIES_PATH)) {
+    args.push('--cookies', COOKIES_PATH);
+    console.log('Menggunakan cookies.txt');
+  } else {
+    console.log('cookies.txt TIDAK DITEMUKAN');
+  }
+
+  args.push(url);
 
   execFile('yt-dlp', args, { timeout: 120000 }, (error, stdout, stderr) => {
     if (error) {
@@ -65,7 +79,6 @@ app.post('/download', (req, res) => {
       });
     }
 
-    // Cari file hasil download
     const files = fs.readdirSync(TEMP).filter(f => f.startsWith(`rezzz-${id}`));
 
     if (files.length === 0) {
@@ -76,9 +89,7 @@ app.post('/download', (req, res) => {
     const fileName = files[0];
 
     res.download(filePath, fileName, (err) => {
-      // Hapus file setelah dikirim
       fs.unlink(filePath, () => {});
-
       if (err) {
         console.error('Download response error:', err.message);
       }
@@ -88,4 +99,5 @@ app.post('/download', (req, res) => {
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Rezzz Audio API running on port ${PORT}`);
+  console.log('Cookies status:', fs.existsSync(COOKIES_PATH) ? 'ADA' : 'TIDAK ADA');
 });
