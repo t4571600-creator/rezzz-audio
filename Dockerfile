@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
+# Install yt-dlp sekali saja saat build
 RUN pip install -U yt-dlp
 
 WORKDIR /app
@@ -19,4 +20,5 @@ COPY cookies.txt .
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "pip install -U yt-dlp && node server.js"]
+# Jangan update lagi saat start
+CMD ["node", "server.js"]
