@@ -16,7 +16,7 @@ const COOKIES_PATH = path.join(__dirname, 'cookies.txt');
 app.get('/', (req, res) => {
   res.json({
     status: 'Rezzz Audio API aktif',
-    version: '1.6',
+    version: '1.7',
     cookies: fs.existsSync(COOKIES_PATH) ? 'ada' : 'tidak ada'
   });
 });
@@ -50,7 +50,7 @@ app.post('/download', (req, res) => {
   const outputTemplate = path.join(TEMP, `rezzz-${id}.%(ext)s`);
 
   const args = [
-    '-f', 'bestaudio/best',
+    '-f', 'bestaudio*/best',
     '-x',
     '--audio-format', 'mp3',
     '--audio-quality', '0',
@@ -58,8 +58,9 @@ app.post('/download', (req, res) => {
     '--no-playlist',
     '--js-runtimes', 'node',
     '--no-warnings',
-    '--extractor-args', 'youtube:player_client=web,mweb,android',
-    '--retries', '5',
+    '--extractor-args', 'youtube:player_client=ios,web,mweb,android',
+    '--retries', '10',
+    '--fragment-retries', '10',
   ];
 
   if (fs.existsSync(COOKIES_PATH)) {
