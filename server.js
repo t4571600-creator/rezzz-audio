@@ -16,7 +16,7 @@ const COOKIES_PATH = path.join(__dirname, 'cookies.txt');
 app.get('/', (req, res) => {
   res.json({
     status: 'Rezzz Audio API aktif',
-    version: '1.4',
+    version: '1.5',
     cookies: fs.existsSync(COOKIES_PATH) ? 'ada' : 'tidak ada'
   });
 });
@@ -49,14 +49,18 @@ app.post('/download', (req, res) => {
   const id = uuidv4().slice(0, 8);
   const outputTemplate = path.join(TEMP, `rezzz-${id}.%(ext)s`);
 
+  // === FIXED ARGS ===
   const args = [
+    '-f', 'bestaudio/best',           // ambil audio terbaik + fallback
     '-x',
     '--audio-format', 'mp3',
     '--audio-quality', '0',
     '-o', outputTemplate,
     '--no-playlist',
     '--js-runtimes', 'node',
-    '--no-warnings'
+    '--no-warnings',
+    // Bantu bypass beberapa pembatasan YouTube
+    '--extractor-args', 'youtube:player_client=android,web',
   ];
 
   // Pakai cookies kalau file ada
@@ -75,7 +79,7 @@ app.post('/download', (req, res) => {
       console.error(stderr);
       return res.status(500).json({
         error: 'Gagal download',
-        detail: error.message
+        detail: error.message + (stderr ? '\n' + stderr : '')
       });
     }
 
