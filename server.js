@@ -16,7 +16,7 @@ const COOKIES_PATH = path.join(__dirname, 'cookies.txt');
 app.get('/', (req, res) => {
   res.json({
     status: 'Rezzz Audio API aktif',
-    version: '1.5',
+    version: '1.6',
     cookies: fs.existsSync(COOKIES_PATH) ? 'ada' : 'tidak ada'
   });
 });
@@ -49,9 +49,8 @@ app.post('/download', (req, res) => {
   const id = uuidv4().slice(0, 8);
   const outputTemplate = path.join(TEMP, `rezzz-${id}.%(ext)s`);
 
-  // === FIXED ARGS ===
   const args = [
-    '-f', 'bestaudio/best',           // ambil audio terbaik + fallback
+    '-f', 'bestaudio/best',
     '-x',
     '--audio-format', 'mp3',
     '--audio-quality', '0',
@@ -59,11 +58,10 @@ app.post('/download', (req, res) => {
     '--no-playlist',
     '--js-runtimes', 'node',
     '--no-warnings',
-    // Bantu bypass beberapa pembatasan YouTube
-    '--extractor-args', 'youtube:player_client=android,web',
+    '--extractor-args', 'youtube:player_client=web,mweb,android',
+    '--retries', '5',
   ];
 
-  // Pakai cookies kalau file ada
   if (fs.existsSync(COOKIES_PATH)) {
     args.push('--cookies', COOKIES_PATH);
     console.log('Menggunakan cookies.txt');
@@ -73,7 +71,7 @@ app.post('/download', (req, res) => {
 
   args.push(url);
 
-  execFile('yt-dlp', args, { timeout: 120000 }, (error, stdout, stderr) => {
+  execFile('yt-dlp', args, { timeout: 180000 }, (error, stdout, stderr) => {
     if (error) {
       console.error('yt-dlp error:', error.message);
       console.error(stderr);
